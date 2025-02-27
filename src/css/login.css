@@ -1,0 +1,125 @@
+.studentLoginContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.studentLoginBox {
+    height: 380px;
+    width: 320px;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+
+}
+
+
+.studentLoginHead{
+    font-family: sans-serif;
+    font-size: 30px;
+    position: relative;
+    font-weight: bold;
+}
+
+.studentLoginItem{
+    background-color: white;
+    border: 2px solid rgb(210, 206, 206);
+    border-radius: 5px;
+    width: 90%;
+    height: 41px;
+    margin-top: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-left: 3px;
+}
+
+.studentLoginInput{
+    height: 60%;
+    width: 100%;
+    border: none;
+    outline: none;
+    position: relative;
+    font-family: sans-serif;
+    font-size: 14px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.loginBtnBox{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.rememberMeBox{
+    margin-right: auto;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 13px;
+    padding: 0;
+}
+
+.rememberMeText{
+    font-family: sans-serif;
+    font-size: 13px;
+    text-align: center;
+    text-wrap: nowrap;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.studentLoginBtn{
+    background-color: #007bff;
+    color: white;
+    border-radius: 3px;
+    width: 92%;
+    height: 40px;
+    margin-top: 20px;
+    font-family: sans-serif;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.studentLoginBtn:hover {
+    background-color: #0056b3;
+}
+
+.loginImage{
+    position: relative;
+    width: 80px;
+    height: 60px;
+}
+
+.loginTopBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+}

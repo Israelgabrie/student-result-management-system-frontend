@@ -1,0 +1,128 @@
+@font-face {
+  font-family: "CalibreRegular";
+  src: url("../fonts/otf/CalibreRegular.otf");
+}
+
+@font-face {
+  font-family: "CalibreBold";
+  src: url("../fonts/otf/CalibreMedium.otf");
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.SignUpContainer {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  min-width: 400px;
+  display: flex;
+  flex-direction: row;
+}
+
+.SignUpForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.SignUpTitle {
+  color: #333;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.SignUpDescription {
+  margin-bottom: 1.5rem;
+  font-family: "CalibreBold", Arial, sans-serif;
+  font-size: 18px;
+}
+
+.FormGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.SignUpLabel {
+  color: #333;
+  font-family: "CalibreBold", Arial, sans-serif;
+  font-weight: 700 !important;
+  font-size: 20px;
+}
+
+.SignUpInput,
+.SignUpSelect {
+  max-width: 425px;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  border: 2px solid rgb(210, 206, 206);
+  outline: none;
+}
+
+.SignUpInput,
+.SignUpSelect:focus {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  border: 2px solid rgb(210, 206, 206);
+  outline: none;
+}
+
+.SignUpSelect {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 12 12'%3E%3Cpath d='M10.293 3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L6 7.586l4.293-4.293z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 2rem;
+}
+
+.SubmitButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: "CalibreBold", Arial, sans-serif;
+  font-weight: bold;
+  font-size: 19px;
+  width: 101%;
+  height: 42px;
+}
+
+.SubmitButton:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 480px) {
+  .SignUpContainer {
+    padding: 1rem;
+  }
+}
+
+.accountTypeBox{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
