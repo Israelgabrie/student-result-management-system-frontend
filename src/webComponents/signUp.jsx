@@ -24,7 +24,7 @@ export default function SignUp() {
       const toastId = toast.loading("Fetching Departments...");
       try {
         const response = await getDepartment();
-        if (response.data.success) {
+        if (response.data?.success) {
           setDepartments(response.data.department);
           toast.update(toastId, {
             render: response.data.message,
@@ -33,7 +33,13 @@ export default function SignUp() {
             isLoading: false,
           });
         } else {
-          throw new Error(response.data.message);
+          toast.update(toastId, {
+            render: response.message,
+            type: "error",
+            autoClose: 3000,
+            isLoading: false,
+            closeButton:true
+          });
         }
       } catch (error) {
         toast.update(toastId, {
@@ -41,6 +47,7 @@ export default function SignUp() {
           type: "error",
           autoClose: 3000,
           isLoading: false,
+          closeButton:true
         });
       }
     }
@@ -112,6 +119,7 @@ export default function SignUp() {
                   value={type} 
                   checked={formData.accountType === type} 
                   onChange={handleChange} 
+                  style={{marginRight:"3px"}}
                 /> {type.charAt(0).toUpperCase() + type.slice(1)}
               </label>
             ))}
