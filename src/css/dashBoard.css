@@ -1,0 +1,71 @@
+.dashBoardBox{
+    height: 110px;
+    border-radius: 3px;
+    background-color: #fbf9f9;
+    border: 2px solid rgb(229, 229, 229);
+    cursor: pointer;
+}
+
+.dashBoardBoxHead{
+    font-family: "CalibreBold";
+    font-size: 18px;
+}
+
+.dashBoardBoxValue{
+    font-family: "CalibreBold";
+    font-size: 28px;
+    margin-bottom: 0;
+}
+
+.performanceBox{
+    border: 2px solid rgb(235, 233, 233);
+    border-radius: 3px;
+}
+
+.dashBoardBoxInfo{
+    font-family: "CalibreRegular";
+    font-size: 15px;
+}
+
+.performaceTitle{
+    font-family: "CalibreBold";
+    font-size: 25px;
+}
+
+.performaceYear{
+    font-family: "CalibreRegular";
+    font-size: 17px;
+}
+
+.performanceTypeBox{
+    width: 100%;
+    gap: 5px;
+    padding: 7px 0px;
+    border-radius: 3px;
+}
+
+.performanceTypeText{
+    background-color: rgb(255, 255, 255);
+    width: 47%;
+    border-radius: 3px;
+    font-family: "CalibreBold";
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    padding-top: 6px;
+
+}
+
+.tableHaad{
+    font-family: "CalibreBold";
+    font-size: 19px;
+}
+
+.tableValue{
+    font-family: "CalibreRegular";
+    font-size: 16px;
+}
+
+
