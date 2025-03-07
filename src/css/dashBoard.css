@@ -1,3 +1,21 @@
+.homePageContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.homePageContent::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.homePageContent::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.homePageContent::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .dashBoardBox{
     height: 110px;
     border-radius: 3px;

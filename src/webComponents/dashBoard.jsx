@@ -5,7 +5,7 @@ import "../css/dashBoard.css";
 export default function Dashboard() {
   return (
     <div
-      className="w-100 p-3 d-flex flex-column align-items-start justify-content-start rounded-1"
+      className="homePageContent w-100 p-3 d-flex flex-column align-items-start justify-content-start rounded-1"
       style={{ backgroundColor: "white", flexGrow: 1, overflowY: "auto" }}
     >
       <div

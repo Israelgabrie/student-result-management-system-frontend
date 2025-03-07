@@ -1,0 +1,64 @@
+.courseRegHead{
+    font-family: "CalibreBold";
+    font-size: 25px;
+}
+
+.courseRegInputBoxes {
+    width: 100%;
+    min-height: 44px;
+    border-radius: 5px;
+    height: 40px;
+    display: flex;
+    justify-content: flex-start; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    padding: 3px;
+    margin-top: 15px;
+    gap: 10px; /* Add spacing between elements */
+}
+
+
+.courseRegInputBox{
+    border:2px solid #E7E4E4;
+    width: 70%;
+    min-height: 44px;
+    border-radius: 5px;
+    height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 3px;
+    
+}
+
+.uploadCourseRegLabel{
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+}
+
+
+
+input[type='file']{
+    display: none;
+}
+
+.uploadCourseRegBtn {
+    font-family: "CalibreBold";
+    font-size: 20px;
+    border: 2px solid #E7E4E4;
+    display: flex;
+    flex-direction: row;
+    height: 44px;
+    border-radius: 3px;
+    gap: 5px;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    width: 150px;
+}
+
+
+.selctedCoursesHead{
+    font-family: "CalibreBold";
+    font-size: 23px;
+    margin-top: 20px;
+}
