@@ -22,10 +22,7 @@ export default function NavBar({ toggleSidebar }) {
             </a>
           </li>
           <li className="nav-item active">
-            <a className="nav-link" href="#">Home</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">Help/Support</a>
+            <a className="nav-link" href="#">Gabriel Isreal</a>
           </li>
         </ul>
         <li className="nav-item d-flex me-3">

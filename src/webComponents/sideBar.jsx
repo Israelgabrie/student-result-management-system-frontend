@@ -31,8 +31,7 @@ const SidebarLinks = () => (
     <NavItem to="viewResult">View Results</NavItem>
     <NavItem to="courseRegistration">Course Registration</NavItem>
     <NavItem to="academicCalendar">Academic Calendar</NavItem>
-    <NavItem to="examSchedule">Exam Schedule</NavItem>
-    <NavItem to="downloadReports">Download Reports</NavItem>
+    <NavItem to="helpSupport">Help/Support</NavItem>
     <NavItem to="settings">Settings</NavItem>
   </>
 );

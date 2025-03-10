@@ -1,0 +1,22 @@
+.calendar-container {
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+  
+  .react-calendar {
+    width: 100%;
+    border: none;
+    font-family: Arial, sans-serif;
+  }
+  
+  .event-label {
+    background-color: #007bff;
+    color: white;
+    font-size: 12px;
+    padding: 3px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 4px;
+  }
+  
