@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { getWelcomeMessage } from "../helperFunctions";
 import "../css/dashBoard.css";
+import { useUser } from "../userContext";
 
 export default function Dashboard() {
+  const { user, setUser } = useUser();
+
+  // Safely access user properties with fallback values
+  const firstName = user?.firstName ?? "N/A";
+  const lastName = user?.lastName ?? "N/A";
+  const fullName = `${firstName} ${lastName}`;
+
   return (
     <div
       className="homePageContent w-100 p-3 d-flex flex-column align-items-start justify-content-start rounded-1"
@@ -12,7 +20,7 @@ export default function Dashboard() {
         style={{ fontFamily: "CalibreBold", fontWeight: "bold" }}
         className="dashBoardName fs-3 me-auto"
       >
-        {getWelcomeMessage("Gabriel Israel")}
+        {getWelcomeMessage(fullName)}
       </div>
       <div className="dashBoardBoxes d-flex flex-column flex-lg-row gap-3 mt-3 w-100">
         <div className="dashBoardBox pb-4 d-flex flex-column align-items-start p-2  w-50">
@@ -46,65 +54,48 @@ export default function Dashboard() {
           <div className="performanceTypeText">Test</div>
           <div className="performanceTypeText">Exams</div>
         </div>
-        <table class="table table-striped">
+        <table className="table table-striped">
           <thead>
             <tr>
-              <th scope="col" class="tableHaad text-start">
+              <th scope="col" className="tableHaad text-start">
                 Course
               </th>
-              <th scope="col" class="tableHaad text-start">
+              <th scope="col" className="tableHaad text-start">
                 Code
               </th>
-              <th scope="col" class="tableHaad text-start">
+              <th scope="col" className="tableHaad text-start">
                 Unit
               </th>
-              <th scope="col" class="tableHaad text-start">
+              <th scope="col" className="tableHaad text-start">
                 Score
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" class="tableValue text-start">
-                Software Configuration Management and Maintenance
+              <th scope="row" className="tableValue text-start">
+                Introduction To Programming
               </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">2</td>
-              <td class="tableValue text-start">29/30</td>
+              <td className="tableValue text-start">CSE 401</td>
+              <td className="tableValue text-start">2</td>
+              <td className="tableValue text-start">29/30</td>
             </tr>
             <tr>
-              <th scope="row" class="tableValue text-start">
-                Software Configuration Management and Maintenance
+              <th scope="row" className="tableValue text-start">
+              Introduction To Programming
               </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">2</td>
-              <td class="tableValue text-start">29/30</td>
+              <td className="tableValue text-start">CSE 402</td>
+              <td className="tableValue text-start">3</td>
+              <td className="tableValue text-start">28/30</td>
             </tr>
             <tr>
-              <th scope="row" class="tableValue text-start">
-                Software Configuration Management and Maintenance
+              <th scope="row" className="tableValue text-start">
+              Introduction To Programming
               </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">2</td>
-              <td class="tableValue text-start">29/30</td>
+              <td className="tableValue text-start">CSE 403</td>
+              <td className="tableValue text-start">2</td>
+              <td className="tableValue text-start">30/30</td>
             </tr>
-            <tr>
-              <th scope="row" class="tableValue text-start">
-                Software Configuration Management and Maintenance
-              </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">2</td>
-              <td class="tableValue text-start">29/30</td>
-            </tr>
-            <tr>
-              <th scope="row" class="tableValue text-start">
-                Software Configuration Management and Maintenance
-              </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">2</td>
-              <td class="tableValue text-start">29/30</td>
-            </tr>
-            
           </tbody>
         </table>
       </div>

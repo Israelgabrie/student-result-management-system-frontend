@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/academicCalender.css"; // Custom styling
+import "../../css/academicCalender.css"
 
 export default function AcademicCalendar() {
   const [value, setValue] = useState(new Date());

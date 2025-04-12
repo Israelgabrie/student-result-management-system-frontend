@@ -1,6 +1,6 @@
 import React from "react";
-import "../css/adminUploadResult.css";
-import { SearchIcon } from "../assets/svg";
+import "../../css/adminUploadResult.css";
+import { SearchIcon } from "../../assets/svg"; 
 
 export default function AdminUploadResult() {
   return (

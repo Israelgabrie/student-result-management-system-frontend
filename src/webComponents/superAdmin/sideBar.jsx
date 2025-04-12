@@ -1,14 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-// this is the side bar for the students home page
-export default function SideBar({ isOpen, isMobile }) {
+export default function SuperAdminSideBar({ isOpen, isMobile }) {
   return (
     <>
       {/* Sidebar for Laptop (Left Side) */}
       {!isMobile && (
         <div className="bg-light p-3 vh-100 shadow d-none d-md-block" style={{ width: "250px" }}>
-          <SidebarLinks />
+          <SuperAdminSidebarLinks />
         </div>
       )}
 
@@ -16,24 +15,26 @@ export default function SideBar({ isOpen, isMobile }) {
       {isMobile && (
         <div 
           className={`bg-light p-3 w-100 shadow d-block d-md-none position-absolute transition-top ${isOpen ? "top-0" : "top-100"}`} 
-          style={{ left: 0, zIndex: 1000, height: "auto",marginTop:70,borderRadius:5}}
+          style={{ left: 0, zIndex: 1000, height: "auto", marginTop: 70, borderRadius: 5 }}
         >
-          <SidebarLinks />
+          <SuperAdminSidebarLinks />
         </div>
       )}
     </>
   );
 }
 
-// Sidebar Links Component
-const SidebarLinks = () => (
+// Sidebar Links Component for Super Admin
+const SuperAdminSidebarLinks = () => (
   <>
     <NavItem to="dashBoard">Dashboard</NavItem>
-    <NavItem to="viewResult">View Results</NavItem>
-    <NavItem to="courseRegistration">Course Registration</NavItem>
-    <NavItem to="academicCalendar">Academic Calendar</NavItem>
+    <NavItem to="manageLecturers">Manage Lecturers</NavItem>
+    <NavItem to="approveRequest">Approve Course Requests</NavItem>
+    <NavItem to="manageCourses">Manage Courses</NavItem>
+    <NavItem to="viewResults">View Uploaded Results</NavItem>
+    <NavItem to="systemSettings">System Settings</NavItem>
+    <NavItem to="adminAccounts">Manage Admin Accounts</NavItem>
     <NavItem to="helpSupport">Help/Support</NavItem>
-    <NavItem to="settings">Settings</NavItem>
   </>
 );
 
