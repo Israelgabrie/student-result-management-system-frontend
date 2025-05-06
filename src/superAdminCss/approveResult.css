@@ -1,0 +1,340 @@
+/* Base styles */
+.containerBox {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    flex-grow: 1;
+    overflow-y: auto;
+    height: 100%;
+    font-family: "Segoe UI", sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  /* Section styling */
+  .section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .sectionHeader {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #222;
+    text-align: left;
+    border-left: 6px solid #007bff;
+    padding-left: 12px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .sectionHeader:hover {
+    transform: translateX(2px);
+  }
+  
+  .sectionSubtext {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 8px;
+    text-align: left;
+    max-width: 800px;
+  }
+  
+  /* Card styling */
+  .results-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 24px;
+  }
+  
+  .results-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .results-card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e1e1e1;
+    background-color: #f1f3f5;
+  }
+  
+  .results-card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  
+  .results-card-title h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  .results-card-description {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }
+  
+  .results-card-content {
+    padding: 0;
+    background-color: #fff;
+  }
+  
+  /* Badge styling */
+  .badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+  
+  .badge:hover {
+    transform: scale(1.05);
+  }
+  
+  .badge-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+  }
+  
+  .badge-approved {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  /* Table styling */
+  .table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+  }
+  
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  .results-table th,
+  .results-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e1e1e1;
+  }
+  
+  .results-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .results-table tbody tr {
+    transition: background-color 0.2s ease;
+  }
+  
+  .results-table tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .font-medium {
+    font-weight: 500;
+  }
+  
+  /* Action buttons */
+  .actions-column {
+    text-align: right;
+    width: 120px;
+  }
+  
+  .actions-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .action-icon {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .approve-btn {
+    background-color: rgba(25, 135, 84, 0.1);
+    color: #198754;
+  }
+  
+  .approve-btn:hover {
+    background-color: rgba(25, 135, 84, 0.2);
+  }
+  
+  .reject-btn {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+  }
+  
+  .reject-btn:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+  }
+  
+  .delete-btn {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+  }
+  
+  .delete-btn:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+  }
+  
+  /* Empty state styling */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    color: #6c757d;
+  }
+  
+  .empty-state-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .results-table th,
+    .results-table td {
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+  
+    .action-btn {
+      width: 28px;
+      height: 28px;
+    }
+  
+    .sectionHeader {
+      font-size: 24px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .containerBox {
+      padding: 16px;
+    }
+  
+    .sectionHeader {
+      font-size: 22px;
+    }
+  
+    .sectionSubtext {
+      font-size: 14px;
+    }
+  
+    .results-table thead {
+      display: none;
+    }
+  
+    .results-table tbody tr {
+      display: block;
+      margin-bottom: 16px;
+      border: 1px solid #e1e1e1;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+  
+    .results-table td {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 12px;
+      text-align: right;
+      border-bottom: 1px solid #f0f0f0;
+    }
+  
+    .results-table td:before {
+      content: attr(data-label);
+      font-weight: 600;
+      float: left;
+      text-align: left;
+      color: #495057;
+    }
+  
+    .results-table td:last-child {
+      border-bottom: none;
+    }
+  
+    .actions-column {
+      width: 100%;
+    }
+  
+    .actions-container {
+      justify-content: flex-end;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .results-card-title {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  
+    .badge {
+      align-self: flex-start;
+    }
+  
+    .action-btn {
+      width: 36px;
+      height: 36px;
+    }
+  }
+  
+  /* Smooth Scrollbar for overflow */
+  .containerBox::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .containerBox::-webkit-scrollbar-thumb {
+    background-color: #adb5bd;
+    border-radius: 4px;
+  }
+  
+  .containerBox::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  

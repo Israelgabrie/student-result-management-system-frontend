@@ -1,75 +1,228 @@
-.approveCourseRequestHead{
-    font-size: 30px;
+/* Base styles */
+.containerBox {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    flex-grow: 1;
+    overflow-y: auto;
+    height: 100%;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sectionHeader {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #222;
+    text-align: left;
+    border-left: 6px solid #007bff;
+    padding-left: 12px;
+  }
+  
+  .sectionSubtext {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .courseRequesTableBox {
+    margin-bottom: 40px;
+    background-color: #f9f9f9;
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .courseRequesTableHead {
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.approveCourseRequestBody{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #827f7c;
-}
-
-.courseRequesTableBox{
+    margin-bottom: 12px;
+    color: #333;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 6px;
+  }
+  
+  .customTable {
     width: 100%;
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-
-.courseRequesTableHead{
-    font-family: "CalibreBold";
-    font-size: 25px;
-    margin-top: 5px;
-}
-
-.actionBtn{
-   background-color: black;
-   color: white;
-   height: 30px;
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-   border-radius: 3px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .customTable thead {
+    background-color: #f1f3f5;
+  }
+  
+  .customTable th,
+  .customTable td {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 15px;
+    border-bottom: 1px solid #e1e1e1;
+    color: #444;
+  }
+  
+  .customTable th {
+    font-weight: 600;
+    color: #343a40;
+  }
+  
+  .customTable tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+  }
+  
+  .noData {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+    font-size: 15px;
+  }
+  
+  /* Action Buttons */
+  .actionBtn {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+    transition: all 0.3s ease;
+    min-width: 90px;
+    text-align: center;
+  }
+  
+  .actionBtn.approve {
+    background-color: #198754;
+  }
+  
+  .actionBtn.approve:hover {
+    background-color: #157347;
+  }
+  
+  .actionBtn.reject {
+    background-color: #dc3545;
+    margin-left: 8px;
+  }
+  
+  .actionBtn.reject:hover {
+    background-color: #bb2d3b;
+  }
+  
+  .actionBtn.revoke {
+    background-color: #ffc107;
+    color: #212529;
+  }
+  
+  .actionBtn.revoke:hover {
+    background-color: #e0a800;
+  }
+  
+  /* Responsive Layout */
+  @media (max-width: 992px) {
+    .customTable th,
+    .customTable td {
+      font-size: 14px;
+      padding: 10px 12px;
+    }
+  
+    .actionBtn {
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+  
+    .sectionHeader {
+      font-size: 24px;
+    }
+  
+    .courseRequesTableBox {
+      padding: 14px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .customTable thead {
+      display: none;
+    }
+  
+    .customTable,
+    .customTable tbody,
+    .customTable tr,
+    .customTable td {
+      display: block;
+      width: 100%;
+    }
+  
+    .customTable tr {
+      margin-bottom: 15px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  
+    .customTable td {
+      text-align: left;
+      padding: 12px;
+      font-size: 14px;
+      border-bottom: none;
+      position: relative;
+    }
+  
+    .customTable td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      display: block;
+      color: #555;
+      margin-bottom: 4px;
+    }
+  
+    .sectionHeader {
+      font-size: 22px;
+    }
+  
+    .sectionSubtext {
+      font-size: 13px;
+    }
+  }
+  
+  /* Smooth Scrollbar for overflow */
+  .containerBox::-webkit-scrollbar {
+    width: 8px;
+  }
+  .containerBox::-webkit-scrollbar-thumb {
+    background-color: #adb5bd;
+    border-radius: 4px;
+  }
+  .containerBox::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  /* Mobile Enhancements */
+  @media (max-width: 480px) {
+    .actionBtn {
+      width: 100%;
+      margin-bottom: 6px;
+    }
+  
+    .customTable td {
+      font-size: 13px;
+    }
+  
+    .sectionHeader {
+      font-size: 20px;
+    }
+  
+    .sectionSubtext {
+      font-size: 12px;
+    }
+  }
+  

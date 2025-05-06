@@ -1,119 +1,117 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { handleRequest } from "../../backendOperation";
 import "../../superAdminCss/approveCourseRequest.css";
+import { useUser } from "../../userContext";
+import { useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function ApproveCourseRequest() {
+  const { user } = useUser();
+  const { allRequests, setAllRequests, approvedRequests,setApprovedRequests } = useOutletContext();
+
+  async function handleRequestAction(requestId, requestOption) {
+    const action = requestOption ? "Accepting" : "Revoking";
+    const toastId = toast.loading(`${action} request...`);
+
+    try {
+      const response = await handleRequest({
+        userId: user._id,
+        requestId,
+        approved: requestOption,
+      });
+
+      if (response.success) {
+        toast.update(toastId, {
+          render: response.message || `Request ${requestOption ? "accepted" : "revoked"} successfully`,
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+        });
+        setAllRequests(response.requests);
+        setApprovedRequests(response.approvedRequests);
+      } else {
+        toast.update(toastId, {
+          render: response.message || "Something went wrong",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      toast.update(toastId, {
+        render: error.message || "Something went wrong",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  }
+
   return (
-    <div
-      className="homePageContent w-100 p-3 d-flex flex-column align-items-start justify-content-start rounded-1"
-      style={{
-        backgroundColor: "white",
-        flexGrow: 1,
-        overflowY: "auto",
-        height: "100%",
-      }}
-    >
-      <div className="approveCourseRequestHead">Approve Course Request</div>
-      <div className="approveCourseRequestBody">
-        Approve or reject course requests from lecturers
-      </div>
+    <div className="homePageContent containerBox">
+      {/* Pending Section */}
+      <div className="sectionHeader">Approve Course Requests</div>
+      <p className="sectionSubtext">Approve or reject course requests from lecturers.</p>
       <div className="courseRequesTableBox">
-        <div className="courseRequesTableHead">Course Request Table</div>
-        <table
-          className="w-100 table table-striped mt-1"
-          style={{ width: "100%" }}
-        >
+        <div className="courseRequesTableHead">Pending Requests</div>
+        <table className="customTable">
           <thead>
             <tr>
-              <th scope="col" class="tableHaad text-start">
-                Name
-              </th>
-              <th scope="col" class="tableHaad text-start">
-                Course
-              </th>
-              <th scope="col" class="tableHaad text-start">
-                Department
-              </th>
-              <th scope="col" class="tableHaad text-start">
-                Date
-              </th>
-              <th scope="col" class="tableHaad text-start">
-                Action
-              </th>
+              <th>Name</th>
+              <th>Course</th>
+              <th>Date</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
+            {allRequests?.length > 0 ? (
+              allRequests.map((req, index) => (
+                <tr key={index}>
+                  <td>{`${req.lecturer.firstName} ${req.lecturer.lastName}`}</td>
+                  <td>{req.courseCode}</td>
+                  <td>{new Date(req.createdAt).toLocaleString()}</td>
+                  <td>
+                    <button className="actionBtn approve" onClick={() => handleRequestAction(req._id, true)}>Approve</button>
+                    <button className="actionBtn reject" onClick={() => handleRequestAction(req._id, false)}>Reject</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr><td colSpan="4" className="noData">No pending requests found.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Approved/Revocation Section */}
+      <div className="sectionHeader mt-4">Revoke Privileges</div>
+      <p className="sectionSubtext">Remove upload rights from lecturers.</p>
+      <div className="courseRequesTableBox">
+        <div className="courseRequesTableHead">Approved Privileges</div>
+        <table className="customTable">
+          <thead>
             <tr>
-              <th scope="row" class="tableValue text-start">
-                John Doe
-              </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">Computer Science</td>
-              <td class="tableValue text-start">2023-12-01 09:45 AM</td>
-              <td class="tableValue text-start d-flex flex-row gap-3 justify-content-start align-items-center">
-                <button className="actionBtn bg-success">Approve</button>
-                <button className="actionBtn bg-danger">Reject</button>
-              </td>
+              <th>Name</th>
+              <th>Course</th>
+              <th>Date Approved</th>
+              <th>Action</th>
             </tr>
-            <tr>
-              <th scope="row" class="tableValue text-start">
-                John Doe
-              </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">Computer Science</td>
-              <td class="tableValue text-start">2023-12-01 09:45 AM</td>
-              <td class="tableValue text-start d-flex flex-row gap-3 justify-content-start align-items-center">
-                <button className="actionBtn bg-success">Approve</button>
-                <button className="actionBtn bg-danger">Reject</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" class="tableValue text-start">
-                John Doe
-              </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">Computer Science</td>
-              <td class="tableValue text-start">2023-12-01 09:45 AM</td>
-              <td class="tableValue text-start d-flex flex-row gap-3 justify-content-start align-items-center">
-                <button className="actionBtn bg-success">Approve</button>
-                <button className="actionBtn bg-danger">Reject</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" class="tableValue text-start">
-                John Doe
-              </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">Computer Science</td>
-              <td class="tableValue text-start">2023-12-01 09:45 AM</td>
-              <td class="tableValue text-start d-flex flex-row gap-3 justify-content-start align-items-center">
-                <button className="actionBtn bg-success">Approve</button>
-                <button className="actionBtn bg-danger">Reject</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" class="tableValue text-start">
-                John Doe
-              </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">Computer Science</td>
-              <td class="tableValue text-start">2023-12-01 09:45 AM</td>
-              <td class="tableValue text-start d-flex flex-row gap-3 justify-content-start align-items-center">
-                <button className="actionBtn bg-success">Approve</button>
-                <button className="actionBtn bg-danger">Reject</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" class="tableValue text-start">
-                John Doe
-              </th>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">Computer Science</td>
-              <td class="tableValue text-start">2023-12-01 09:45 AM</td>
-              <td class="tableValue text-start d-flex flex-row gap-3 justify-content-start align-items-center">
-                <button className="actionBtn bg-success">Approve</button>
-                <button className="actionBtn bg-danger">Reject</button>
-              </td>
-            </tr>
+          </thead>
+          <tbody>
+            {approvedRequests?.length > 0 ? (
+              approvedRequests?.map((req, index) => (
+                <tr key={index}>
+                  <td>{`${req.lecturer.firstName} ${req.lecturer.lastName}`}</td>
+                  <td>{req.courseCode}</td>
+                  <td>{new Date(req.updatedAt || req.createdAt).toLocaleString()}</td>
+                  <td>
+                    <button className="actionBtn revoke" onClick={() => handleRequestAction(req._id, false)}>Revoke</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr><td colSpan="4" className="noData">No approved privileges found.</td></tr>
+            )}
           </tbody>
         </table>
       </div>

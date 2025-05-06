@@ -11,9 +11,11 @@ import AcademicCalendar from "./webComponents/admin/academicCalender.jsx";
 import AdminHomepage from './webComponents/admin/adminHomepage.jsx';
 import AdminUploadResult from './webComponents/admin/adminUploadResult.jsx';
 import MyCourses from './webComponents/admin/myCourses.jsx';
-import SuperAdminHomepage from './webComponents/superAdmin/homePage.jsx';
+import SuperAdminHomepage from './webComponents/superAdmin/superAdminHomePage.jsx';
 import SuperAdminDashBoard from './webComponents/superAdmin/dashBoard.jsx';
 import ApproveCourseRequest from './webComponents/superAdmin/approveCourseRequest.jsx';
+import SystemSettings from './webComponents/superAdmin/systemSettings.jsx';
+import ApproveResults from './webComponents/superAdmin/approveResult.jsx';
 
 // Placeholder Components
 const AdminViewResult = () => <div>Admin View Result (Coming Soon)</div>;
@@ -43,7 +45,7 @@ const router = createBrowserRouter([
     path: "/admin",
     element: <AdminHomepage />,
     children: [
-      { index: true, element: <Navigate to="upload" replace /> },
+      { index: true, element: <Navigate to="myCourses" replace /> },
       { path: "upload", element: <AdminUploadResult /> },
       { path: "viewResult", element: <AdminViewResult /> },
       { path: "myCourses", element: <MyCourses /> },
@@ -58,7 +60,8 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="dashboard" replace /> },
       { path: "dashboard", element: <SuperAdminDashBoard /> }, 
       { path: "approveRequest", element: <ApproveCourseRequest /> },
-      { path: "systemSettings", element: <SuperAdminSystemSettings /> }
+      { path: "systemSettings", element: <SystemSettings /> },
+      { path: "manageResults", element: <ApproveResults /> }
     ]
   }
 ]);

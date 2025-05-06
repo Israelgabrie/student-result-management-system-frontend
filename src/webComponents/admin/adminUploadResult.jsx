@@ -1,251 +1,322 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/adminUploadResult.css";
-import { SearchIcon } from "../../assets/svg"; 
+import { SearchIcon } from "../../assets/svg";
+import { useOutletContext } from "react-router-dom";
+import { useUser } from "../../userContext";
+import { uploadResult } from "../../backendOperation";
+import { toast } from "react-toastify";
 
 export default function AdminUploadResult() {
+  const [resultType, setResultType] = useState("test");
+  const { uploadResultData, setUploadResultData } = useOutletContext();
+  const { user } = useUser();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [uploadFormData, setUploadFormData] = useState({
+    courseCode: "",
+    courseTitle: "",
+    session: "",
+    adminName: "",
+    matricNumber: "",
+    semester: "",
+    unit: "",
+    score: "",
+  });
+
+  async function addStudentResult() {
+    try {
+      if (
+        !uploadFormData.courseCode ||
+        !uploadFormData.matricNumber ||
+        !uploadFormData.session ||
+        !uploadFormData.semester ||
+        !uploadFormData.unit ||
+        !uploadFormData.score
+      ) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      const resultData = {
+        courseCode: uploadFormData.courseCode,
+        courseTitle: uploadFormData.courseTitle,
+        session: uploadFormData.session,
+        userId: user._id,
+        matricNumber: uploadFormData.matricNumber,
+        semester: uploadFormData.semester,
+        unit: parseInt(uploadFormData.unit) || "",
+        score: uploadFormData.score,
+        resultType: resultType,
+      };
+
+      const response = await uploadResult(resultData);
+      if (response?.success) {
+        setUploadResultData((prev) => ({
+          ...prev,
+          uploadedResults: response.uploadedResults,
+        }));
+        toast.success(response.message || "Result Uploaded Successfully");
+      } else {
+        toast.error(response?.response?.data?.message || "Something went wrong");
+      }
+    } catch (error) {
+      toast.dismiss();
+      toast.error(error?.response?.data?.message || error.message || "Something went wrong");
+    }
+  }
+
+  useEffect(() => {
+    if (!uploadFormData.courseCode || !uploadResultData?.courses) return;
+
+    const currentCourse = uploadResultData.courses.find(
+      (course) => course.courseCode === uploadFormData.courseCode
+    );
+
+    if (currentCourse) {
+      setUploadFormData((prev) => ({
+        ...prev,
+        courseTitle: currentCourse.courseTitle,
+      }));
+    } else {
+      setUploadFormData((prev) => ({
+        ...prev,
+        courseTitle: "",
+      }));
+    }
+  }, [uploadFormData.courseCode, uploadResultData.courses]);
+
+  const filteredResults = Array.isArray(uploadResultData?.uploadedResults)
+  ? uploadResultData.uploadedResults.filter((result) => {
+      const query = searchQuery.toLowerCase();
+      return (
+        result.courseCode?.toLowerCase().includes(query) ||
+        result.idNumber?.toLowerCase().includes(query) ||
+        result.session?.toLowerCase().includes(query) ||
+        (result.approved ? "approved" : "pending").includes(query)
+      );
+    })
+  : [];
+
+
   return (
-    <div className="container p-3" >
-      <div
-        style={{
-          border: "1px solid black",
-          borderColor: "rgb(210, 206, 206)",
-          padding: 10,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          borderRadius: 5,
-          width: "100%", // Ensure full width
-        }}
-        className="uploadResultBox"
-      >
-        <div
-          className="uploadResultBoxTitle"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            width: "100%", // Ensure full width
-          }}
-        >
-          <h1 style={{ fontFamily: "CalibreBold", marginTop: 10 }}>
-            Upload Result
-          </h1>
+    <div className="container p-3">
+      <div className="uploadResultBox">
+        <h1 className="uploadTitle">Upload Result</h1>
+        <p className="uploadSubtitle">
+          Enter test and exam scores for students. All fields are required.
+        </p>
+
+        <div className="uploadResultTypeBoxes">
           <div
-            className="uploadResultBody"
+            className="uploadResultTypeBox"
             style={{
-              fontFamily: "CalibreBold",
-              color: "#7B7272",
-              fontSize: 15,
+              backgroundColor: resultType === "test" ? "#006ef5" : "",
+              color: resultType === "test" ? "white" : "",
+            }}
+            onClick={() => {
+              setResultType("test");
             }}
           >
-            Enter test and exam scores for students. All fields are required.
+            Test
           </div>
           <div
-            className="uploadResultTypeBoxes"
+            className="uploadResultTypeBox"
             style={{
-              padding: 5,
-              width: "100%",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              backgroundColor: resultType === "exam" ? "#006ef5" : "",
+              color: resultType === "exam" ? "white" : "",
+            }}
+            onClick={() => {
+              setResultType("exam");
             }}
           >
-            <div className="uploadResultTypeBox">Test</div>
-            <div className="uploadResultTypeBox">Exam</div>
+            Exam
           </div>
-          <div className="uplaodResultForms" style={{ gap: "25px" }}>
-            <div className="uploadResultFormRow d-flex flex-column flex-md-row">
-              <div className="uploadResultFormBox w-100 w-sm-auto">
-                <label className="uploadResultFormLabel">Course Code</label>
-                <select className="uploadResultInput">
-                  <option value={"csc 101"}>CSC 101</option>
-                </select>
-              </div>
-              <div className="uploadResultFormBox w-100 w-sm-auto">
-                <label className="uploadResultFormLabel">Course Title</label>
-                <input className="uploadResultInput" />
-              </div>
-            </div>
-            <div className="uploadResultFormRow d-flex flex-column flex-md-row">
-              <div className="uploadResultFormBox w-100 w-sm-auto">
-                <label className="uploadResultFormLabel">Session</label>
-                <select className="uploadResultInput">
-                  <option value={"csc 101"}>2024/2025</option>
-                </select>
-              </div>
-              <div className="uploadResultFormBox w-100 w-sm-auto">
-                <label className="uploadResultFormLabel">Lecturer Name</label>
-                <input className="uploadResultInput" />
-              </div>
-            </div>
-            <div className="uploadResultFormRow d-flex flex-column flex-md-row">
-              <div className="uploadResultFormBox w-100 w-sm-auto">
-                <label className="uploadResultFormLabel">Matric Number</label>
-                <input className="uploadResultInput" />
-              </div>
-              <div
-                className="uploadResultFormBox w-100 w-sm-auto d-flex flex-column flex-md-row"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+        </div>
+
+        <div className="uploadResultForms">
+          <div className="uploadResultFormRow">
+            <div className="uploadResultFormBox">
+              <label className="uploadResultFormLabel">Course Code</label>
+              <select
+                className="uploadResultInput"
+                value={uploadFormData.courseCode}
+                onChange={(e) => {
+                  setUploadFormData((prev) => ({
+                    ...prev,
+                    courseCode: e.target.value,
+                  }));
                 }}
               >
-                <div className="smuploadResultFormBox w-100 w-sm-100">
-                  <label className="uploadResultFormLabel">Score</label>
-                  <input className="smuploadResultInput" />
-                </div>
-                <div className="smuploadResultFormBox w-100 w-sm-100">
-                  <label className="uploadResultFormLabel">Score</label>
-                  <input className="smuploadResultInput" />
-                </div>
+                <option value="">-- Select Course Code --</option>
+                {Array.isArray(uploadResultData?.courses) &&
+                  uploadResultData.courses.map((course) => (
+                    <option key={course.courseCode} value={course.courseCode}>
+                      {course.courseCode}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className="uploadResultFormBox">
+              <label className="uploadResultFormLabel">Course Title</label>
+              <input
+                className="uploadResultInput"
+                placeholder={uploadFormData.courseTitle || "No course selected"}
+                readOnly
+              />
+            </div>
+          </div>
+
+          <div className="uploadResultFormRow">
+            <div className="uploadResultFormBox">
+              <label className="uploadResultFormLabel">Session</label>
+              <select
+                className="uploadResultInput"
+                value={uploadFormData.session}
+                onChange={(e) =>
+                  setUploadFormData((prev) => ({
+                    ...prev,
+                    session: e.target.value,
+                  }))
+                }
+              >
+                <option value="">-- Select Session --</option>
+                {uploadResultData?.sessions?.map((session, index) => (
+                  <option key={index} value={session}>
+                    {session}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="uploadResultFormBox">
+              <label className="uploadResultFormLabel">Unit</label>
+              <input
+                className="uploadResultInput"
+                type="number"
+                max={16}
+                min={0}
+                value={uploadFormData.unit}
+                onChange={(e) =>
+                  setUploadFormData((prev) => ({
+                    ...prev,
+                    unit: e.target.value,
+                  }))
+                }
+              />
+            </div>
+          </div>
+
+          <div className="uploadResultFormRow">
+            <div className="uploadResultFormBox">
+              <label className="uploadResultFormLabel">Matric Number</label>
+              <input
+                className="uploadResultInput"
+                value={uploadFormData.matricNumber}
+                onChange={(e) =>
+                  setUploadFormData((prev) => ({
+                    ...prev,
+                    matricNumber: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="scoreInputs">
+              <select
+                className="smuploadResultFormBox"
+                style={{
+                  height: 40,
+                  borderRadius: 3,
+                  border: "1px solid rgb(210, 206, 206)",
+                  marginTop: "auto",
+                  padding: 5,
+                }}
+                value={uploadFormData.semester}
+                onChange={(e) =>
+                  setUploadFormData((prev) => ({
+                    ...prev,
+                    semester: e.target.value,
+                  }))
+                }
+              >
+                <option value="">-- Select Semester --</option>
+                <option value="First">First</option>
+                <option value="Second">Second</option>
+              </select>
+              <div className="smuploadResultFormBox">
+                <label className="uploadResultFormLabel">
+                  {resultType === "test" ? "Test" : "Exam"} Score
+                </label>
+                <input
+                  className="smuploadResultInput"
+                  placeholder={`Enter ${resultType === "test" ? "30" : "70"} or below`}
+                  value={uploadFormData.score}
+                  onChange={(e) =>
+                    setUploadFormData((prev) => ({
+                      ...prev,
+                      score: e.target.value,
+                    }))
+                  }
+                />
               </div>
             </div>
-            <div
-              className="addResultBox"
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                width: "120px",
-                height: "35px",
-                display:"flex",
-                flexDirection:"row",
-                justifyContent:"center",
-                alignItems:"center",
-                borderRadius:3,
-                fontFamily:"CalibreBold",
-                fontSize:19,
-                paddingTop:5,
-                marginLeft:"auto"
-              }}
-            >
-              Add Result
-            </div>
+          </div>
+
+          <div className="addResultBtn" onClick={addStudentResult}>
+            Add Result
           </div>
         </div>
       </div>
-      <div className="manageResultBox" style={{ border: "1px solid black",
-          borderColor: "rgb(210, 206, 206)",
-          padding: 10,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          borderRadius: 5,
-          width: "100%", // Ensure full width 
-          marginTop:40
-          }}>
-        <div className="manageResultHead" style={{fontFamily:"CalibreBold",fontSize:"30px"}}>Manage Results</div>
-        <div className="manageResultText" style={{fontFamily:"CalibreRegular",fontSize:"17px",color:"#7B7272"}}>View and manage previously uploaded results.</div>
-        <div className="manageResultSeachBox w-100" style={{
-          border:"2px solid  rgb(210, 206, 206)",
-          display:"flex",
-          flexDirection:"row",
-          height:"40px",
-          borderRadius:5,
-          alignItems:"center",
-          padding:3,
-          marginTop:10
-        }}>
-          <SearchIcon width={25} height={25} />
-          <input className="manageResultInput" style={{
-            height:"100%",
-            width:"100%",
-            border:"none",
-            outline:"none",
-            paddingLeft:7,
-            paddingTop:5,
-            fontFamily:"CalibreRegular",
-            fontSize:18
-          }}/>
+
+      <div className="manageResultBox">
+        <div className="manageResultHead">Manage Results</div>
+        <div className="manageResultText">
+          View and manage previously uploaded results.
+        </div>
+        <div className="manageResultSeachBox">
+          <SearchIcon width={20} height={20} />
+          <input
+            className="manageResultInput"
+            placeholder="Search by course, matric number, session..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
 
-        <table  className="table table-striped mt-3">
+        <table className="table table-striped mt-3">
           <thead>
             <tr>
-              <th scope="col" class="tableHaad text-start">
-                Course
-              </th>
-              <th scope="col" class="tableHaad text-start">
-                Matric Number
-              </th>
-              <th scope="col" class="tableHaad text-start">
-                Type
-              </th>
-              <th scope="col" class="tableHaad text-start">
-                score
-              </th>
-              <th scope="col" class="tableHaad text-start">
-                Upload Date
-              </th>
-              <th scope="col" class="tableHaad text-start">
-                Action
-              </th>
-              
+              <th className="tableHaad text-start">Course</th>
+              <th className="tableHaad text-start">Matric Number</th>
+              <th className="tableHaad text-start">Approved</th>
+              <th className="tableHaad text-start">Session</th>
+              <th className="tableHaad text-start">Upload Date</th>
+              <th className="tableHaad text-start">Unit</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">21010202003</td>
-              <td class="tableValue text-start">Test</td>
-              <td class="tableValue text-start">24/30</td>
-              <td class="tableValue text-start">2024-10-3</td>
-              <td class="tableValue text-start">Edit</td>
-              
-            </tr>
-            <tr>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">21010202003</td>
-              <td class="tableValue text-start">Test</td>
-              <td class="tableValue text-start">24/30</td>
-              <td class="tableValue text-start">2024-10-3</td>
-              <td class="tableValue text-start">Edit</td>
-              
-            </tr>
-            <tr>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">21010202003</td>
-              <td class="tableValue text-start">Test</td>
-              <td class="tableValue text-start">24/30</td>
-              <td class="tableValue text-start">2024-10-3</td>
-              <td class="tableValue text-start">Edit</td>
-              
-            </tr>
-            <tr>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">21010202003</td>
-              <td class="tableValue text-start">Test</td>
-              <td class="tableValue text-start">24/30</td>
-              <td class="tableValue text-start">2024-10-3</td>
-              <td class="tableValue text-start">Edit</td>
-              
-            </tr>
-            <tr>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">21010202003</td>
-              <td class="tableValue text-start">Test</td>
-              <td class="tableValue text-start">24/30</td>
-              <td class="tableValue text-start">2024-10-3</td>
-              <td class="tableValue text-start">Edit</td>
-              
-            </tr>
-            <tr>
-              <td class="tableValue text-start">CSE 401</td>
-              <td class="tableValue text-start">21010202003</td>
-              <td class="tableValue text-start">Test</td>
-              <td class="tableValue text-start">24/30</td>
-              <td class="tableValue text-start">2024-10-3</td>
-              <td class="tableValue text-start">Edit</td>
-              
-            </tr>
+            {filteredResults?.length > 0 ? (
+              filteredResults.map((result, index) => (
+                <tr key={index}>
+                  <td className="tableValue text-start">{result.courseCode}</td>
+                  <td className="tableValue text-start">{result.idNumber}</td>
+                  <td className="tableValue text-start">
+                    {result.approved ? "Approved" : "Pending"}
+                  </td>
+                  <td className="tableValue text-start">{result.session}</td>
+                  <td className="tableValue text-start">
+                    {new Date(result.uploadedAt).toLocaleTimeString()}
+                  </td>
+                  <td className="tableValue text-start">{result.unit}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center">
+                  No results found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
-
       </div>
     </div>
   );

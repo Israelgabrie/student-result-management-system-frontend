@@ -1,75 +1,92 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavBar from './NavBar';
-import SideBar from './SideBar';
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import SuperAdminNavBar from './navBar';
+import SuperAdminSideBar from './sideBar';
+import { Outlet, useNavigate } from "react-router-dom";
 import { getLoggedInUser } from '../backendOperation';
-import { useUser } from '../userContext';
 import LoadingScreen from './loadingScreen';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from '../userContext';
+import { socket } from '../backendOperation';
+import NavBar from './navBar';
+import SideBar from './sideBar';
 
+
+// This is the homepage componenet for the students
 export default function Homepage() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { user, setUser } = useUser();
-  const location = useLocation();
   const navigate = useNavigate();
-  const loginUser = location.state?.user || null;
-  const [loggIn, setLoggedIn] = useState(false); 
-
-  
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        if (loginUser) {
-          console.log("User signed in from login page:", loginUser);
-          setTimeout(() => {
-            setUser(loginUser);
-            setLoggedIn(true)
-          }, 3000); // Wait 3 seconds before setting user
-        } else {
-          console.log("Checking user authentication via cookies...");
+        let currentUser = user;
+
+        if (!currentUser) {
           const response = await getLoggedInUser();
-  
+
           if (response?.success) {
-            console.log("User authenticated via cookies:", response.user);
-            setTimeout(() => {
-              setUser(response.user);
-              toast.success("Logged in successfully");
-              setLoggedIn(true)
-            }, 3000); // Wait 3 seconds before setting user
+            setIsLoggedIn(true)
+            currentUser = response.user;
+            setUser(currentUser);
+            toast.success("Logged in successfully");
           } else {
-            console.warn("User not authenticated:", response?.message);
             toast.error(response?.message || "Login required");
-  
-            setTimeout(() => {
-              navigate("/login", { replace: true });
-            }, 3000); // Wait 3 seconds before navigation
+            navigate("/login", { replace: true });
             return;
           }
         }
+
+        // Redirect based on role
+        if (currentUser.accountType === "student") {
+          
+        }
+        if (currentUser.accountType === "admin") {
+          navigate("/admin", { replace: true });
+          return;
+        }
+
+        if (currentUser.accountType === "superAdmin") {
+          navigate("/superAdmin", { replace: true });
+          return;
+        }
+
+        // Only superAdmin gets here
+        setIsLoggedIn(true);
+
+        // Listen for privilege requests
+        socket.emit("join-super-admin-room", currentUser._id);
+        socket.on("newPrivilegeRequest", (data) => {
+          toast.info(`New privilege request: ${data.courseCode} by ${data.lecturerName}`);
+        });
+
       } catch (error) {
         console.error("Error fetching user:", error);
         toast.error("An error occurred while verifying login.");
-  
-        setTimeout(() => {
-          navigate("/login", { replace: true });
-        }, 3000); // Wait 3 seconds before navigation
-        return;
+        navigate("/login", { replace: true });
+      } finally {
+        setLoading(false);
       }
-  
-      setLoggedIn(false);
     };
-  
-    fetchUser();
-  }, [loginUser, setUser, navigate]);
 
-  if (!loggIn) {
+    fetchUser();
+
+    return () => {
+      socket.off("newPrivilegeRequest");
+      socket.disconnect();
+    };
+  }, [user, setUser, navigate]);
+
+  if (!isLoggedIn) {
     return (
-      <div >
+      <>
         <ToastContainer />
-         <LoadingScreen />
-      </div>
+        <LoadingScreen />
+      </>
     );
   }
 
@@ -78,7 +95,7 @@ export default function Homepage() {
       className="homePageContainer"
       style={{
         position: "fixed",
-        backgroundColor: "pink",
+        backgroundColor: "#f8f9fa",
         minHeight: "100vh",
         width: "100%",
         left: 0,
@@ -86,28 +103,32 @@ export default function Homepage() {
         paddingTop: "77px",
         overflowY: "hidden",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "column"
       }}
     >
-      <NavBar toggleSidebar={() => setIsOpen(!isOpen)} />
+      <ToastContainer />
+      <NavBar toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
 
       <div style={{ display: "flex", flexGrow: 1 }}>
+        {/* Sidebar for larger screens */}
         <div className="d-none d-md-block" style={{ width: "250px" }}>
           <SideBar />
         </div>
 
+        {/* Content area */}
         <div
           style={{
             flexGrow: 1,
             overflowY: "auto",
-            height: "calc(100vh - 77px)",
+            height: "calc(100vh - 77px)"
           }}
         >
           <Outlet />
         </div>
       </div>
 
-      <SideBar isOpen={isOpen} isMobile />
+      {/* Sidebar for mobile */}
+      <SideBar isOpen={isSidebarOpen} isMobile />
     </div>
   );
 }

@@ -1,125 +1,135 @@
 .studentLoginContainer {
     width: 100%;
-    height: 100%;
-    position: relative;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.studentLoginBox {
-    height: 380px;
-    width: 320px;
-    background-color: whitesmoke;
-    border-radius: 5px;
+    margin: auto;
+    /* background: linear-gradient(135deg, #f0f4f8, #d9e2ec); */
+  }
+  
+  .studentLoginBox {
+    width: 360px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    padding: 25px 20px 30px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
-
-}
-
-
-.studentLoginHead{
-    font-family: sans-serif;
-    font-size: 30px;
-    position: relative;
-    font-weight: bold;
-}
-
-.studentLoginItem{
-    background-color: white;
-    border: 2px solid rgb(210, 206, 206);
-    border-radius: 5px;
-    width: 90%;
-    height: 41px;
-    margin-top: 35px;
+    gap: 20px;
+  }
+  
+  .loginTopBar {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
     align-items: center;
-    padding-left: 3px;
-}
-
-.studentLoginInput{
-    height: 60%;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .loginImage {
+    width: 60px;
+    height: 50px;
+  }
+  
+  .studentLoginHead {
+    font-family: sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .studentLoginItem {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+  }
+  
+  .studentLoginInput {
+    height: 100%;
     width: 100%;
     border: none;
     outline: none;
-    position: relative;
-    font-family: sans-serif;
+    padding: 0 10px;
+    background: transparent;
     font-size: 14px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.loginBtnBox{
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    font-family: sans-serif;
+  }
+  
+  .loginBtnBox {
+    padding-right: 8px;
     cursor: pointer;
-}
-
-.rememberMeBox{
-    margin-right: auto;
-    margin-top: 15px;
+  }
+  
+  .loginOptionsRow {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-left: 13px;
-    padding: 0;
-}
-
-.rememberMeText{
-    font-family: sans-serif;
-    font-size: 13px;
-    text-align: center;
-    text-wrap: nowrap;
+    padding: 0 5px;
+  }
+  
+  .rememberMeBox {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.studentLoginBtn{
+    gap: 6px;
+    font-size: 13px;
+    color: #333;
+  }
+  
+  .rememberMeBox input {
+    margin: 0;
+  }
+  
+  .forgotPasswordLink {
+    background: none;
+    border: none;
+    font-size: 13px;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .forgotPasswordLink:hover {
+    color: #0056b3;
+  }
+  
+  .studentLoginBtn {
     background-color: #007bff;
     color: white;
-    border-radius: 3px;
-    width: 92%;
-    height: 40px;
-    margin-top: 20px;
-    font-family: sans-serif;
+    border: none;
+    border-radius: 6px;
+    height: 42px;
     font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    font-size: 15px;
     cursor: pointer;
-}
-
-.studentLoginBtn:hover {
+    transition: background-color 0.3s ease;
+  }
+  
+  .studentLoginBtn:hover {
     background-color: #0056b3;
-}
-
-.loginImage{
-    position: relative;
-    width: 80px;
-    height: 60px;
-}
-
-.loginTopBar{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    margin-top: 20px;
-}
+  }
+  
+  .signupPrompt {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  .signupLink {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-weight: bold;
+    margin-left: 5px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .signupLink:hover {
+    color: #0056b3;
+  }
+  

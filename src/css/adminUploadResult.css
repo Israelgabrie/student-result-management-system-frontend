@@ -1,92 +1,170 @@
-.uploadResultTypeBoxes{
-    background-color: rgb(222, 220, 220);
-    margin-top: 10px;
-}
-
-.uploadResultTypeBox{
-    background-color: white;
-    width: 45%;
-    height: 30px;
+.uploadResultBox {
+    border: 1px solid rgb(210, 206, 206);
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    background-color: #f9f9f9;
+    margin-bottom: 40px;
+  }
+  
+  .uploadTitle {
+    font-family: "CalibreBold";
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+  
+  .uploadSubtitle {
+    font-family: "CalibreRegular";
+    font-size: 16px;
+    color: #7b7272;
+    margin-bottom: 20px;
+  }
+  
+  .uploadResultTypeBoxes {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
     display: flex;
-    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .uploadResultTypeBox {
+    background-color: white;
+    flex: 1;
+    height: 35px;
+    display: flex;
     justify-content: center;
     align-items: center;
     font-family: "CalibreBold";
-    font-size: 18px;
-    border-radius: 3px;
-    padding-top: 3px;
-}
-
-.uplaodResultForms{
-    margin-top: 20px;
-    width: 100%;
+    font-size: 16px;
+    border: 2px solid #006ef5;
+    color: #006ef5;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .uploadResultTypeBox:hover {
+    background-color: #006ef5;
+    color: white;
+  }
+  
+  .uploadResultForms {
     display: flex;
     flex-direction: column;
+    gap: 25px;
+  }
+  
+  .uploadResultFormRow {
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
-}
-
-
-.uploadResultFormRow{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 30px;
-
-}
-
-.uploadResultFormBox{
+  }
+  
+  .uploadResultFormBox {
+    flex: 1;
+    min-width: 220px;
     display: flex;
     flex-direction: column;
-    width: 45%;
-    align-items: flex-start;
     gap: 5px;
-}
-
-.uploadResultInput{
-    width: 100%;
+  }
+  
+  .uploadResultFormLabel {
+    font-family: "CalibreBold";
+    font-size: 16px;
+  }
+  
+  .uploadResultInput {
     height: 40px;
     border-radius: 5px;
     border: 2px solid rgb(210, 206, 206);
-}
-
-.uploadResultFormLabel{
-    font-family: "CalibreBold";
-    font-size: 18px;
-}
-
-.smuploadResultFormBox{
+    padding-left: 10px;
+    font-size: 15px;
+  }
+  
+  .scoreInputs {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+  }
+  
+  .smuploadResultFormBox {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    width: 50%;
-}
-
-.smuploadResultInput{
-    height: 42px;
+    gap: 5px;
+  }
+  
+  .smuploadResultInput {
+    height: 40px;
     border-radius: 5px;
-    border:2px solid rgb(210, 206, 206);
+    border: 2px solid rgb(210, 206, 206);
+    padding-left: 10px;
+    font-size: 15px;
+  }
+  
+  .addResultBtn {
+    align-self: flex-end;
+    background-color: #006ef5;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-family: "CalibreBold";
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .addResultBtn:hover {
+    background-color: #0056c2;
+  }
+  
+  .manageResultBox {
+    border: 1px solid rgb(210, 206, 206);
+    border-radius: 8px;
+    padding: 20px;
     width: 100%;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    background-color: #f9f9f9;
+  }
+  
+  .manageResultHead {
+    font-family: "CalibreBold";
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  
+  .manageResultText {
+    font-family: "CalibreRegular";
+    font-size: 16px;
+    color: #7b7272;
+  }
+  
+  .manageResultSeachBox {
+    margin-top: 15px;
+    border: 2px solid rgb(210, 206, 206);
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .manageResultInput {
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    font-family: "CalibreRegular";
+    font-size: 16px;
+    flex: 1;
+    background: transparent;
+  }
+  
+  .tableHaad {
+    font-family: "CalibreBold";
+    font-size: 16px;
+  }
+  
+  .tableValue {
+    font-family: "CalibreRegular";
+    font-size: 15px;
+  }
+  

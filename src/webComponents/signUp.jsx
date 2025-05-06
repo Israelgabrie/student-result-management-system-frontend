@@ -3,6 +3,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { addUser, getDepartment } from "../backendOperation";
 import { ToastContainer, toast } from "react-toastify";
 import "../css/SignUp.css";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,7 @@ export default function SignUp() {
       try {
         const response = await getDepartment();
         if (response.data?.success) {
+          console.log(response.data.department)
           setDepartments(response.data.department);
           toast.update(toastId, {
             render: response.data.message,
@@ -38,7 +40,7 @@ export default function SignUp() {
             type: "error",
             autoClose: 3000,
             isLoading: false,
-            closeButton:true
+            closeButton: true,
           });
         }
       } catch (error) {
@@ -47,7 +49,7 @@ export default function SignUp() {
           type: "error",
           autoClose: 3000,
           isLoading: false,
-          closeButton:true
+          closeButton: true,
         });
       }
     }
@@ -69,7 +71,16 @@ export default function SignUp() {
     setLoading(true);
     try {
       const { data } = await addUser(formData);
-      data.success ? toast.success(data.message) : toast.error(data.message);
+
+      if (data.success) {
+        toast.success(data.message);
+        // Directly navigate after success
+        setTimeout(() => {
+          navigate("/login"); // Use the navigate function here, not useNavigate inside setTimeout
+        }, 2000); // Add a delay if needed (e.g., 2 seconds)
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred.");
     } finally {
@@ -78,9 +89,9 @@ export default function SignUp() {
   };
 
   return (
-    <div className="SignUpContainer" >
+    <div className="SignUpContainer">
       <ToastContainer />
-      <form className="SignUpForm" onSubmit={handleSubmit} >
+      <form className="SignUpForm" onSubmit={handleSubmit}>
         <h2 className="SignUpTitle">
           <img className="loginImage" src="/img/mtu logo.png" alt="MTU Logo" />
           Sign Up
@@ -95,15 +106,17 @@ export default function SignUp() {
           { label: "Email", name: "email", type: "email" },
         ].map(({ label, name, type }) => (
           <div className="FormGroup" key={name}>
-            <label className="SignUpLabel" htmlFor={name}>{label}</label>
-            <input 
-              type={type} 
-              id={name} 
-              name={name} 
-              value={formData[name]} 
-              onChange={handleChange} 
-              required 
-              className="SignUpInput" 
+            <label className="SignUpLabel" htmlFor={name}>
+              {label}
+            </label>
+            <input
+              type={type}
+              id={name}
+              name={name}
+              value={formData[name]}
+              onChange={handleChange}
+              required
+              className="SignUpInput"
             />
           </div>
         ))}
@@ -111,16 +124,17 @@ export default function SignUp() {
         <div className="FormGroup">
           <label className="SignUpLabel">Account Type</label>
           <div className="accountTypeBox">
-            {["student", "lecturer"].map((type) => (
+            {["student", "admin"].map((type) => (
               <label key={type}>
-                <input 
-                  type="radio" 
-                  name="accountType" 
-                  value={type} 
-                  checked={formData.accountType === type} 
-                  onChange={handleChange} 
-                  style={{marginRight:"3px"}}
-                /> {type.charAt(0).toUpperCase() + type.slice(1)}
+                <input
+                  type="radio"
+                  name="accountType"
+                  value={type}
+                  checked={formData.accountType === type}
+                  onChange={handleChange}
+                  style={{ marginRight: "3px" }}
+                />{" "}
+                {type.charAt(0).toUpperCase() + type.slice(1)}
               </label>
             ))}
           </div>
@@ -129,37 +143,48 @@ export default function SignUp() {
         {formData.accountType === "student" && (
           <>
             <div className="FormGroup">
-              <label className="SignUpLabel" htmlFor="department">Department</label>
-              <select 
-                id="department" 
-                name="department" 
-                value={formData.department} 
-                onChange={handleChange} 
-                required 
+              <label className="SignUpLabel" htmlFor="department">
+                Department
+              </label>
+              <select
+                id="department"
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+                required
                 className="SignUpInput"
-                style={{maxWidth:"1000px"}}
+                style={{ maxWidth: "1000px" }}
               >
                 <option value="">Select Department</option>
                 {departments.map((dept) => (
-                  <option key={dept.name} value={dept.name}>{dept.name}</option>
+                  <option key={dept.name} value={dept.name}>
+                    {dept.name}
+                  </option>
                 ))}
               </select>
             </div>
 
             <div className="FormGroup">
-              <label className="SignUpLabel" htmlFor="programme">Programme</label>
-              <select 
-                id="programme" 
-                name="programme" 
-                value={formData.programme} 
-                onChange={handleChange} 
-                required 
+              <label className="SignUpLabel" htmlFor="programme">
+                Programme
+              </label>
+              <select
+                id="programme"
+                name="programme"
+                value={formData.programme}
+                onChange={handleChange}
+                required
                 className="SignUpInput"
-                style={{maxWidth:"1000px"}}
+                style={{ maxWidth: "1000px" }}
               >
                 <option value="">Select Programme</option>
-                {departments.find((dept) => dept.name === formData.department)?.Programmes?.map((programme) => (
-                  <option key={programme} value={programme}>{programme}</option>
+                {(
+                  departments.find((dept) => dept.name === formData.department)
+                    ?.Programmes || []
+                ).map((programme) => (
+                  <option key={programme} value={programme}>
+                    {programme}
+                  </option>
                 ))}
               </select>
             </div>
@@ -169,18 +194,24 @@ export default function SignUp() {
         {[
           { label: "ID Number", name: "idNumber", type: "text" },
           { label: "Password", name: "password", type: "password" },
-          { label: "Super Admin Passcode", name: "superAdminPasscode", type: "password" },
+          {
+            label: "Super Admin Passcode",
+            name: "superAdminPasscode",
+            type: "password",
+          },
         ].map(({ label, name, type }) => (
           <div className="FormGroup" key={name}>
-            <label className="SignUpLabel" htmlFor={name}>{label}</label>
-            <input 
-              type={type} 
-              id={name} 
-              name={name} 
-              value={formData[name]} 
-              onChange={handleChange} 
-              required 
-              className="SignUpInput" 
+            <label className="SignUpLabel" htmlFor={name}>
+              {label}
+            </label>
+            <input
+              type={type}
+              id={name}
+              name={name}
+              value={formData[name]}
+              onChange={handleChange}
+              required
+              className="SignUpInput"
             />
           </div>
         ))}
