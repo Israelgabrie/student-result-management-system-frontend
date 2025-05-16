@@ -3,7 +3,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SuperAdminNavBar from "./navBar";
 import SuperAdminSideBar from "./sideBar";
 import { Outlet, useNavigate } from "react-router-dom";
-import { getAllRequest, getLoggedInUser, getManageResultData, getSuperAdminDashBoardData } from "../../backendOperation";
+import {
+  fetchRandomCourses,
+  getAllAdmins,
+  getAllRequest,
+  getLoggedInUser,
+  getManageResultData,
+  getSuperAdminDashBoardData,
+} from "../../backendOperation";
 import LoadingScreen from "../loadingScreen";
 import { useUser } from "../../userContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -17,7 +24,9 @@ export default function SuperAdminHomepage() {
   const [allRequests, setAllRequests] = useState([]);
   const [approvedRequests, setApprovedRequests] = useState([]);
   const [manageResultData, setManageResultData] = useState({});
-  const [dashBoardData,setDashBoardData] = useState({});
+  const [dashBoardData, setDashBoardData] = useState({});
+  const [courses, setCourses] = useState([]);
+  const [admins,setAdmins] = useState([]);
 
   const fetchAllRequests = async (userId) => {
     try {
@@ -37,7 +46,8 @@ export default function SuperAdminHomepage() {
       const response = await getManageResultData({ userId });
       if (response?.success) setAllRequests(response.requests);
       if (response?.success) setManageResultData(response);
-      else toast.error(response?.message || "Failed to fetch manage Result Data.");
+      else
+        toast.error(response?.message || "Failed to fetch manage Result Data.");
     } catch (error) {
       toast.error(
         error.message || "An error occurred while fetching requests."
@@ -52,12 +62,37 @@ export default function SuperAdminHomepage() {
       else toast.error(response?.message || "Failed to fetch dashboard data.");
     } catch (error) {
       toast.error(
-        error.message || "An error occurred while fetching requests."
+        error?.message || "An error occurred while fetching requests."
       );
     }
   };
 
+  const fetchAllAdmins = async (userId) => {
+    try {
+      const response = await getAllAdmins({});
+      if (response?.success) setAdmins(response.admins);
+      else toast.error(response?.message || "Failed to fetch admins.");
+    } catch (error) {
+      toast.error(
+        error?.message || "An error occurred while fetching requests."
+      );
+    }
+  };
 
+  const getRandomCourses = async () => {
+    try {
+      const response = await fetchRandomCourses({});
+      if (response.success) {
+        setCourses(response?.courses);
+      } else {
+        toast.error(response?.response?.data?.message);
+      }
+    } catch (error) {
+      toast.error(error.message || "An error occurred while fetching courses.");
+    }
+  };
+
+  
 
   useEffect(() => {
     const checkAndRedirectUser = async () => {
@@ -79,13 +114,14 @@ export default function SuperAdminHomepage() {
 
         if (accountType === "student") return navigate("/homePage");
         if (accountType === "admin") return navigate("/admin");
-        if (accountType !== "superAdmin")
-          throw new Error("Unauthorized access");
+        if (accountType !== "superAdmin") toast.error("Unauthorized access");
 
         setIsLoggedIn(true);
         fetchAllRequests(_id);
-        fetchManageResultData(_id)
-        fetchDashBoardData(_id)
+        fetchManageResultData(_id);
+        fetchDashBoardData(_id);
+        getRandomCourses();
+        fetchAllAdmins();
       } catch (error) {
         toast.error(error.message || "Session verification failed");
         navigate("/login");
@@ -95,6 +131,11 @@ export default function SuperAdminHomepage() {
     checkAndRedirectUser();
   }, [user?._id, navigate, setUser]);
 
+  
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   if (!isLoggedIn) {
     return (
       <>
@@ -146,7 +187,11 @@ export default function SuperAdminHomepage() {
               manageResultData,
               setManageResultData,
               dashBoardData,
-              setDashBoardData
+              setDashBoardData,
+              courses,
+              setCourses,
+              admins,
+              setAdmins
             }}
           />
         </div>

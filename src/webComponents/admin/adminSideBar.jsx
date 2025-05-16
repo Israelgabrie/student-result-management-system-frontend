@@ -84,6 +84,7 @@ const SidebarLinks = () => (
   <>
     <NavItem to="/admin/myCourses">My Courses</NavItem>
     <NavItem to="/admin/manageStudents">Manage Students</NavItem>
+    <NavItem to="/admin/courses">Analyse Courses</NavItem>
     <NavItem to="/admin/upload">Upload Results</NavItem>
     <NavItem to="/admin/settings">Settings</NavItem>
   </>

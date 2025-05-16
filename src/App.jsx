@@ -16,18 +16,23 @@ import SuperAdminDashBoard from './webComponents/superAdmin/dashBoard.jsx';
 import ApproveCourseRequest from './webComponents/superAdmin/approveCourseRequest.jsx';
 import SystemSettings from './webComponents/superAdmin/systemSettings.jsx';
 import ApproveResults from './webComponents/superAdmin/approveResult.jsx';
+import ManageCourses from './webComponents/superAdmin/manageCourses.jsx';
+import ManageAdmins from './webComponents/superAdmin/manageAdmin.jsx';
+import ManageStudents from './webComponents/admin/manageStudents.jsx';
+import ErrorPage from './webComponents/errorElement.jsx';
+import CourseSessionAnalysis from './webComponents/admin/courseAnalysis.jsx';
+import AdminSettings from './webComponents/admin/adminSettings.jsx';
 
 // Placeholder Components
 const AdminViewResult = () => <div>Admin View Result (Coming Soon)</div>;
 const SuperAdminManageUsers = () => <div>Manage Users (Coming Soon)</div>;
 const SuperAdminSystemSettings = () => <div>System Settings (Coming Soon)</div>;
 const AdminManageStudents = () => <div>Manage Students (Coming Soon)</div>;
-const AdminSettings = () => <div>Admin Settings (Coming Soon)</div>;
 
 document.title = "Mountain Top University Result Management System";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Login /> },
+  { path: "/", element: <Login /> ,errorElement: <ErrorPage />},
   { path: "/login", element: <Login /> },
   { path: "/signUp", element: <SignUp /> },
   {
@@ -49,8 +54,9 @@ const router = createBrowserRouter([
       { path: "upload", element: <AdminUploadResult /> },
       { path: "viewResult", element: <AdminViewResult /> },
       { path: "myCourses", element: <MyCourses /> },
-      { path: "manageStudents", element: <AdminManageStudents /> },
-      { path: "settings", element: <AdminSettings /> }
+      { path: "settings", element: <AdminSettings /> },
+      { path: "manageStudents", element: <ManageStudents /> },
+      { path: "courses", element: <CourseSessionAnalysis /> },
     ]
   },
   {
@@ -60,8 +66,10 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="dashboard" replace /> },
       { path: "dashboard", element: <SuperAdminDashBoard /> }, 
       { path: "approveRequest", element: <ApproveCourseRequest /> },
-      { path: "systemSettings", element: <SystemSettings /> },
-      { path: "manageResults", element: <ApproveResults /> }
+      { path: "systemSettings", element: <SystemSettings /> }, 
+      { path: "manageResults", element: <ApproveResults /> },
+      { path: "manageCourses", element: <ManageCourses /> },
+      { path: "manageAdmin", element: <ManageAdmins /> }
     ]
   }
 ]);

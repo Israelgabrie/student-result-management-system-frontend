@@ -6,6 +6,7 @@ import "../css/SignUp.css";
 import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [departments, setDepartments] = useState([]);
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ export default function SignUp() {
     idNumber: "",
     department: "",
     programme: "",
+    session: "", // new field for students
     password: "",
     superAdminPasscode: "",
   });
@@ -26,7 +28,6 @@ export default function SignUp() {
       try {
         const response = await getDepartment();
         if (response.data?.success) {
-          console.log(response.data.department)
           setDepartments(response.data.department);
           toast.update(toastId, {
             render: response.data.message,
@@ -53,12 +54,18 @@ export default function SignUp() {
         });
       }
     }
+
     fetchDepartments();
   }, []);
 
   useEffect(() => {
     if (formData.accountType !== "student") {
-      setFormData((prev) => ({ ...prev, department: "", programme: "" }));
+      setFormData((prev) => ({
+        ...prev,
+        department: "",
+        programme: "",
+        session: "", // clear session if not student
+      }));
     }
   }, [formData.accountType]);
 
@@ -71,13 +78,11 @@ export default function SignUp() {
     setLoading(true);
     try {
       const { data } = await addUser(formData);
-
       if (data.success) {
         toast.success(data.message);
-        // Directly navigate after success
         setTimeout(() => {
-          navigate("/login"); // Use the navigate function here, not useNavigate inside setTimeout
-        }, 2000); // Add a delay if needed (e.g., 2 seconds)
+          navigate("/login");
+        }, 2000);
       } else {
         toast.error(data.message);
       }
@@ -153,7 +158,6 @@ export default function SignUp() {
                 onChange={handleChange}
                 required
                 className="SignUpInput"
-                style={{ maxWidth: "1000px" }}
               >
                 <option value="">Select Department</option>
                 {departments.map((dept) => (
@@ -175,18 +179,32 @@ export default function SignUp() {
                 onChange={handleChange}
                 required
                 className="SignUpInput"
-                style={{ maxWidth: "1000px" }}
               >
                 <option value="">Select Programme</option>
                 {(
-                  departments.find((dept) => dept.name === formData.department)
-                    ?.Programmes || []
+                  departments.find((d) => d.name === formData.department)
+                    ?.programmes || []
                 ).map((programme) => (
                   <option key={programme} value={programme}>
                     {programme}
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div className="FormGroup">
+              <label className="SignUpLabel" htmlFor="session">
+                Session (e.g., 2023/2024)
+              </label>
+              <input
+                type="text"
+                id="session"
+                name="session"
+                value={formData.session}
+                onChange={handleChange}
+                required
+                className="SignUpInput"
+              />
             </div>
           </>
         )}

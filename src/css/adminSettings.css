@@ -1,0 +1,274 @@
+/* Admin Settings CSS with unique class names */
+.adm-settings-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+  }
+  
+  .adm-settings-header {
+    margin-bottom: 2rem;
+  }
+  
+  .adm-settings-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .adm-settings-header h1::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: #006ef5; /* Updated to the requested blue color */
+    border-radius: 2px;
+  }
+  
+  .adm-settings-header p {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-top: 1rem;
+  }
+  
+  .adm-settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+  
+  .adm-settings-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .adm-settings-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+  .adm-settings-card-header {
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .adm-settings-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 110, 245, 0.1); /* Updated to the requested blue color */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #006ef5; /* Updated to the requested blue color */
+  }
+  
+  .adm-settings-card-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #343a40;
+    margin: 0;
+  }
+  
+  .adm-settings-card-content {
+    padding: 1.5rem;
+  }
+  
+  /* Form Styles */
+  .adm-form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .adm-form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+  }
+  
+  .adm-form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
+  
+  .adm-form-group input:focus {
+    outline: none;
+    border-color: #006ef5; /* Updated to the requested blue color */
+    box-shadow: 0 0 0 3px rgba(0, 110, 245, 0.1); /* Updated to the requested blue color */
+  }
+  
+  .adm-form-group small {
+    display: block;
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+  }
+  
+  /* Button Styles */
+  .adm-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  
+  .adm-btn-primary {
+    background-color: #006ef5; /* Updated to the requested blue color */
+    color: white;
+  }
+  
+  .adm-btn-primary:hover {
+    background-color: #0056cc; /* Darker shade of the requested blue color */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .adm-btn-secondary {
+    background-color: #e9ecef;
+    color: #495057;
+  }
+  
+  .adm-btn-secondary:hover {
+    background-color: #dee2e6;
+  }
+  
+  .adm-btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+  
+  /* Profile Picture Styles */
+  .adm-profile-picture-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .adm-profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #ced4da;
+    transition: all 0.2s;
+  }
+  
+  .adm-profile-picture:hover {
+    border-color: #006ef5; /* Updated to the requested blue color */
+  }
+  
+  .adm-profile-picture span {
+    color: #6c757d;
+    font-size: 0.875rem;
+  }
+  
+  /* Session Info Styles */
+  .adm-session-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .adm-session-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .adm-session-item h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #495057;
+    margin: 0;
+  }
+  
+  .adm-session-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #006ef5; /* Updated to the requested blue color */
+    padding: 0.75rem 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+    border-left: 4px solid #006ef5; /* Updated to the requested blue color */
+  }
+  
+  .adm-session-divider {
+    height: 1px;
+    background-color: #e9ecef;
+    margin: 0.5rem 0;
+  }
+  
+  .adm-session-note {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e6f2ff; /* Light blue background */
+    border-radius: 0.375rem;
+    border-left: 4px solid #006ef5; /* Updated to the requested blue color */
+  }
+  
+  .adm-session-note p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #004db3; /* Darker blue for text */
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 992px) {
+    .adm-settings-container {
+      padding: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .adm-settings-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .adm-settings-container {
+      padding: 1rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .adm-settings-header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .adm-settings-card-header {
+      padding: 1rem;
+    }
+  
+    .adm-settings-card-content {
+      padding: 1rem;
+    }
+  }
+  

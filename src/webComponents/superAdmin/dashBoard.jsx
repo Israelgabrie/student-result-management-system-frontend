@@ -1,35 +1,8 @@
-import React, { useEffect } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import "../../superAdminCss/dashboard.css";
-import { useOutletContext } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 export default function SuperAdminDashboard() {
-  const { dashBoardData, setDashBoardData } = useOutletContext();
-
-  useEffect(() => {
-    console.log(dashBoardData);
-  }, [dashBoardData]);
-
-  useEffect;
-  // Sample data - would be replaced with real data
-  const stats = {
-    students: 12458,
-    lecturers: 843,
-    courses: 356,
-    results: {
-      total: 2845,
-      pending: 124,
-      approved: 2612,
-      rejected: 109,
-    },
-    requests: {
-      total: 78,
-      pending: 23,
-      approved: 55,
-    },
-    semester: "Second Semester",
-    session: "2023/2024",
-  };
-
   // Sample data for department results
   const departmentResults = [
     { name: "Computer Science", uploaded: 420, approved: 380 },
@@ -39,106 +12,39 @@ export default function SuperAdminDashboard() {
     { name: "Arts", uploaded: 210, approved: 190 },
   ];
 
-  // Sample data for recent results
-  const recentResults = [
-    {
-      id: 1,
-      student: "John Smith",
-      course: "CSC 401",
-      lecturer: "Dr. Johnson",
-      status: "approved",
-      date: "2023-05-10",
-    },
-    {
-      id: 2,
-      student: "Emily Brown",
-      course: "MTH 301",
-      lecturer: "Prof. Williams",
-      status: "pending",
-      date: "2023-05-09",
-    },
-    {
-      id: 3,
-      student: "Michael Davis",
-      course: "PHY 202",
-      lecturer: "Dr. Miller",
-      status: "approved",
-      date: "2023-05-08",
-    },
-    {
-      id: 4,
-      student: "Sarah Wilson",
-      course: "BIO 101",
-      lecturer: "Dr. Taylor",
-      status: "rejected",
-      date: "2023-05-07",
-    },
-    {
-      id: 5,
-      student: "David Martinez",
-      course: "CHM 202",
-      lecturer: "Prof. Anderson",
-      status: "approved",
-      date: "2023-05-06",
-    },
-  ];
+  // Get data from context with safe access
+  const { dashBoardData } = useOutletContext() || {};
+  const navigate = useNavigate();
 
-  // Sample data for recent privilege requests
-  const recentRequests = [
-    {
-      id: 1,
-      lecturer: "Dr. Johnson",
-      course: "CSC 401",
-      department: "Computer Science",
-      status: "approved",
-      date: "2023-05-10",
-    },
-    {
-      id: 2,
-      lecturer: "Prof. Williams",
-      course: "MTH 301",
-      department: "Mathematics",
-      status: "pending",
-      date: "2023-05-09",
-    },
-    {
-      id: 3,
-      lecturer: "Dr. Miller",
-      course: "PHY 202",
-      department: "Physics",
-      status: "pending",
-      date: "2023-05-08",
-    },
-    {
-      id: 4,
-      lecturer: "Dr. Taylor",
-      course: "BIO 101",
-      department: "Biology",
-      status: "approved",
-      date: "2023-05-07",
-    },
-  ];
+  useEffect(() => {
+    console.log(dashBoardData?.departmentBreakdown);
+  }, [dashBoardData]);
 
-  // Calculate percentages for pie chart
-  const totalResults =
-    stats.results.approved + stats.results.pending + stats.results.rejected;
-  const approvedPercentage = Math.round(
-    (stats.results.approved / totalResults) * 100
-  );
-  const pendingPercentage = Math.round(
-    (stats.results.pending / totalResults) * 100
-  );
-  const rejectedPercentage = Math.round(
-    (stats.results.rejected / totalResults) * 100
-  );
+  // Calculate percentages for pie chart with safe access
+  const totalResults = dashBoardData?.stats?.results?.total || 0;
+  const approvedResults = dashBoardData?.stats?.results?.approved || 0;
+  const pendingResults = dashBoardData?.stats?.results?.pending || 0;
+
+  // Calculate percentages safely
+  const approvedPercentage = totalResults
+    ? Math.round((approvedResults / totalResults) * 100)
+    : 0;
+  const pendingPercentage = totalResults
+    ? Math.round((pendingResults / totalResults) * 100)
+    : 0;
+  const notCompletePercentage = 100 - approvedPercentage - pendingPercentage;
+
+  // useEffect(() => {
+  //   console.log(approvedPercentage, pendingPercentage, notCompletePercentage);
+  // }, [approvedPercentage, pendingPercentage, notCompletePercentage]);
 
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
         <h1>Super Admin Dashboard</h1>
         <div className="semester-badge">
-          {dashBoardData?.stats?.semester || 0} Semester •{" "}
-          {dashBoardData?.stats?.session || 0}
+          {dashBoardData?.stats?.semester || "Current"} Semester •{" "}
+          {dashBoardData?.stats?.session || "2024/2025"}
         </div>
       </div>
 
@@ -149,7 +55,7 @@ export default function SuperAdminDashboard() {
           <div className="stat-content">
             <h3>Students</h3>
             <div className="stat-value">
-              {dashBoardData?.stats?.students || "0"}
+              {dashBoardData?.stats?.students?.toLocaleString() || "0"}
             </div>
           </div>
         </div>
@@ -159,7 +65,7 @@ export default function SuperAdminDashboard() {
           <div className="stat-content">
             <h3>Lecturers</h3>
             <div className="stat-value">
-              {dashBoardData?.stats?.admins || "0"}
+              {dashBoardData?.stats?.admins?.toLocaleString() || "0"}
             </div>
           </div>
         </div>
@@ -169,7 +75,7 @@ export default function SuperAdminDashboard() {
           <div className="stat-content">
             <h3>Courses</h3>
             <div className="stat-value">
-              {dashBoardData?.stats?.courses || "0"}
+              {dashBoardData?.stats?.courses?.toLocaleString() || "0"}
             </div>
           </div>
         </div>
@@ -179,17 +85,20 @@ export default function SuperAdminDashboard() {
           <div className="stat-content">
             <h3>Results</h3>
             <div className="stat-value">
-              {dashBoardData?.stats?.results?.total || "0"}
+              {dashBoardData?.stats?.results?.total?.toLocaleString() || "0"}
             </div>
             <div className="stat-breakdown">
               <span className="approved">
-                {dashBoardData?.stats?.results?.approved || "0"} approved
+                {dashBoardData?.stats?.results?.approved?.toLocaleString() ||
+                  "0"}{" "}
+                approved
               </span>{" "}
               •
               <span className="pending">
-                {dashBoardData?.stats?.results?.pending || "0"} pending
-              </span>{" "}
-              •
+                {dashBoardData?.stats?.results?.pending?.toLocaleString() ||
+                  "0"}{" "}
+                pending
+              </span>
             </div>
           </div>
         </div>
@@ -200,31 +109,31 @@ export default function SuperAdminDashboard() {
         <div className="chart-card">
           <h3>Results by Department</h3>
           <div className="bar-chart-container">
-            {departmentResults.map((dept, index) => (
+            {dashBoardData?.departmentBreakdown?.map((dept, index) => (
               <div className="bar-chart-item" key={index}>
-                <div className="bar-chart-label">{dept.name}</div>
+                <div className="bar-chart-label">{dept?.department}</div>
                 <div className="bar-chart-bars">
                   <div
                     className="bar-chart-bar uploaded"
-                    style={{ width: `${(dept.uploaded / 500) * 100}%` }}
-                    title={`Uploaded: ${dept.uploaded}`}
+                    style={{ width: `${(dept?.totalResults / 500) * 100}%` }}
+                    title={`Total: ${dept?.department}`}
                   ></div>
                   <div
                     className="bar-chart-bar approved"
-                    style={{ width: `${(dept.approved / 500) * 100}%` }}
-                    title={`Approved: ${dept.approved}`}
+                    style={{ width: `${(dept?.approvedResults / 500) * 100}%` }}
+                    title={`Approved: ${dept?.approved}`}
                   ></div>
                 </div>
                 <div className="bar-chart-values">
-                  <span>{dept.uploaded}</span>
-                  <span>{dept.approved}</span>
+                  <span>{dept?.totalResults}</span>
+                  <span>{dept?.approvedResults}</span>
                 </div>
               </div>
             ))}
             <div className="bar-chart-legend">
               <div className="legend-item">
                 <div className="legend-color uploaded"></div>
-                <div>Uploaded</div>
+                <div>Total</div>
               </div>
               <div className="legend-item">
                 <div className="legend-color approved"></div>
@@ -237,93 +146,100 @@ export default function SuperAdminDashboard() {
         <div className="chart-card">
           <h3>Results Status</h3>
           <div className="pie-chart-container">
+            {/* Simplified pie chart implementation */}
             <div className="pie-chart">
-              <div
-                className="pie-slice approved-slice"
-                style={{
-                  transform: `rotate(0deg)`,
-                  clipPath: `polygon(50% 50%, 50% 0%, ${
-                    approvedPercentage > 50
-                      ? "100% 0%, 100% 100%, 0% 100%, 0% 0%"
-                      : "100% 0%"
-                  }, ${
-                    approvedPercentage > 75
-                      ? "0% 0%, 50% 0%"
-                      : approvedPercentage > 50
-                      ? "50% 100%, 50% 0%"
-                      : "50% 50%"
-                  })`,
-                }}
-              ></div>
-              <div
-                className="pie-slice pending-slice"
-                style={{
-                  transform: `rotate(${approvedPercentage * 3.6}deg)`,
-                  clipPath: `polygon(50% 50%, 50% 0%, ${
-                    pendingPercentage > 50
-                      ? "100% 0%, 100% 100%, 0% 100%, 0% 0%"
-                      : "100% 0%"
-                  }, 50% 0%)`,
-                }}
-              ></div>
-              <div
-                className="pie-slice rejected-slice"
-                style={{
-                  transform: `rotate(${
-                    (approvedPercentage + pendingPercentage) * 3.6
-                  }deg)`,
-                  clipPath: `polygon(50% 50%, 50% 0%, ${
-                    rejectedPercentage > 50
-                      ? "100% 0%, 100% 100%, 0% 100%, 0% 0%"
-                      : "100% 0%"
-                  }, 50% 0%)`,
-                }}
-              ></div>
+              <svg viewBox="0 0 100 100" className="pie-svg">
+                {/* Background circle */}
+                <circle cx="50" cy="50" r="50" fill="#f8f9fa" />
+
+                {/* Pie chart slices */}
+                {(() => {
+                  const radius = 40;
+                  const circumference = 2 * Math.PI * radius;
+
+                  const approved = (approvedPercentage / 100) * circumference;
+                  const pending = (pendingPercentage / 100) * circumference;
+                  const notComplete =
+                    (notCompletePercentage / 100) * circumference;
+
+                  return (
+                    <>
+                      {/* Approved slice */}
+                      {approvedPercentage > 0 && (
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r={radius}
+                          fill="transparent"
+                          stroke="#51cf66"
+                          strokeWidth="40"
+                          strokeDasharray={`${approved} ${
+                            circumference - approved
+                          }`}
+                          strokeDashoffset={0}
+                          transform="rotate(-90 50 50)"
+                        />
+                      )}
+
+                      {/* Pending slice */}
+                      {pendingPercentage > 0 && (
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r={radius}
+                          fill="transparent"
+                          stroke="#ffd43b"
+                          strokeWidth="40"
+                          strokeDasharray={`${pending} ${
+                            circumference - pending
+                          }`}
+                          strokeDashoffset={-approved}
+                          transform="rotate(-90 50 50)"
+                        />
+                      )}
+
+                      {/* Not Complete slice */}
+                      {notCompletePercentage > 0 && (
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r={radius}
+                          fill="transparent"
+                          stroke="#ff6b6b"
+                          strokeWidth="40"
+                          strokeDasharray={`${notComplete} ${
+                            circumference - notComplete
+                          }`}
+                          strokeDashoffset={-(approved + pending)}
+                          transform="rotate(-90 50 50)"
+                        />
+                      )}
+                    </>
+                  );
+                })()}
+
+                {/* Center white circle */}
+                <circle cx="50" cy="50" r="25" fill="white" />
+              </svg>
+
               <div className="pie-center">
                 <div className="pie-total">{totalResults}</div>
                 <div className="pie-label">Results</div>
               </div>
             </div>
+
             <div className="pie-legend">
               <div className="legend-item">
                 <div className="legend-color approved"></div>
-                <div>
-                  Approved (
-                  {(dashBoardData?.stats?.results?.approved /
-                    dashBoardData?.stats?.results?.total) *
-                    100 || "0"}
-                  %)
-                </div>
+                <div>Approved ({approvedPercentage}%)</div>
               </div>
               <div className="legend-item">
                 <div className="legend-color pending"></div>
-                <div>
-                  Pending (
-                  {(dashBoardData?.stats?.results?.pending /
-                    dashBoardData?.stats?.results?.total) *
-                    100 || "0"}
-                  %)
-                </div>
+                <div>Pending ({pendingPercentage}%)</div>
               </div>
               <div className="legend-item">
                 <div className="legend-color rejected"></div>
-                <div>
-                  Not Complete
-                  <div>
-                    {" "}
-                    (
-                    {dashBoardData?.stats?.results?.total
-                      ? `${(
-                          ((dashBoardData?.stats?.results?.total -
-                            dashBoardData?.stats?.results?.approved -
-                            dashBoardData?.stats?.results?.pending) /
-                            dashBoardData?.stats?.results?.total) *
-                          100
-                        ).toFixed(1)}%`
-                      : "0%"}
-                    ){" "}
-                  </div>
-                </div>{" "}
+                <div>Not Complete ({notCompletePercentage}%)</div>
               </div>
             </div>
           </div>
@@ -335,7 +251,9 @@ export default function SuperAdminDashboard() {
         <div className="activity-card">
           <div className="activity-header">
             <h3>Recent Results</h3>
-            <button className="view-all-btn">View All</button>
+            <button className="view-all-btn" onClick={(()=>{
+              navigate("/superAdmin/manageResults")
+            })}>View All</button>
           </div>
           <div className="table-container">
             <table className="activity-table">
@@ -379,7 +297,9 @@ export default function SuperAdminDashboard() {
         <div className="activity-card">
           <div className="activity-header">
             <h3>Recent Privilege Requests</h3>
-            <button className="view-all-btn">View All</button>
+            <button className="view-all-btn" onClick={(()=>{
+              navigate("/superAdmin/approveRequest")
+            })}>View All</button>
           </div>
           <div className="table-container">
             <table className="activity-table">
@@ -425,15 +345,30 @@ export default function SuperAdminDashboard() {
       <div className="quick-actions">
         <h3>Quick Actions</h3>
         <div className="action-buttons">
-          <button className="action-button approve-results">
+          <button
+            className="action-button approve-results"
+            onClick={() => {
+              navigate("/superAdmin/manageResults");
+            }}
+          >
             <span className="action-icon">✓</span>
             <span>Approve Results</span>
           </button>
-          <button className="action-button manage-users">
+          <button
+            className="action-button manage-users"
+            onClick={() => {
+              navigate("/superAdmin/manageAdmin");
+            }}
+          >
             <span className="action-icon">👥</span>
             <span>Manage Users</span>
           </button>
-          <button className="action-button add-course">
+          <button
+            className="action-button add-course"
+            onClick={() => {
+              navigate("/superAdmin/manageCourses");
+            }}
+          >
             <span className="action-icon">📚</span>
             <span>Add Course</span>
           </button>

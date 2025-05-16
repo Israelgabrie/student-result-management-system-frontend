@@ -50,6 +50,7 @@ export default function AdminUploadResult() {
       };
 
       const response = await uploadResult(resultData);
+      console.log(response);
       if (response?.success) {
         setUploadResultData((prev) => ({
           ...prev,
@@ -57,11 +58,21 @@ export default function AdminUploadResult() {
         }));
         toast.success(response.message || "Result Uploaded Successfully");
       } else {
-        toast.error(response?.response?.data?.message || "Something went wrong");
+        console.log("eweey");
+        toast.error(
+          response?.response?.data?.message ||
+            response?.message ||
+            "Something went wrong"
+        );
+        console.log("after toast eweey");
       }
     } catch (error) {
-      toast.dismiss();
-      toast.error(error?.response?.data?.message || error.message || "Something went wrong");
+      console.log(error.message);
+      toast.error(
+        error?.response?.data?.message ||
+          error.message ||
+          "Something went wrong"
+      );
     }
   }
 
@@ -86,17 +97,20 @@ export default function AdminUploadResult() {
   }, [uploadFormData.courseCode, uploadResultData.courses]);
 
   const filteredResults = Array.isArray(uploadResultData?.uploadedResults)
-  ? uploadResultData.uploadedResults.filter((result) => {
-      const query = searchQuery.toLowerCase();
-      return (
-        result.courseCode?.toLowerCase().includes(query) ||
-        result.idNumber?.toLowerCase().includes(query) ||
-        result.session?.toLowerCase().includes(query) ||
-        (result.approved ? "approved" : "pending").includes(query)
-      );
-    })
-  : [];
+    ? uploadResultData.uploadedResults.filter((result) => {
+        const query = searchQuery.toLowerCase();
+        return (
+          result.courseCode?.toLowerCase().includes(query) ||
+          result.idNumber?.toLowerCase().includes(query) ||
+          result.session?.toLowerCase().includes(query) ||
+          (result.approved ? "approved" : "pending").includes(query)
+        );
+      })
+    : [];
 
+  useEffect(() => {
+    console.log(filteredResults);
+  }, [filteredResults]);
 
   return (
     <div className="container p-3">
@@ -191,9 +205,7 @@ export default function AdminUploadResult() {
               <label className="uploadResultFormLabel">Unit</label>
               <input
                 className="uploadResultInput"
-                type="number"
-                max={16}
-                min={0}
+                type="text"
                 value={uploadFormData.unit}
                 onChange={(e) =>
                   setUploadFormData((prev) => ({
@@ -247,7 +259,9 @@ export default function AdminUploadResult() {
                 </label>
                 <input
                   className="smuploadResultInput"
-                  placeholder={`Enter ${resultType === "test" ? "30" : "70"} or below`}
+                  placeholder={`Enter ${
+                    resultType === "test" ? "30" : "70"
+                  } or below`}
                   value={uploadFormData.score}
                   onChange={(e) =>
                     setUploadFormData((prev) => ({
@@ -286,10 +300,10 @@ export default function AdminUploadResult() {
             <tr>
               <th className="tableHaad text-start">Course</th>
               <th className="tableHaad text-start">Matric Number</th>
-              <th className="tableHaad text-start">Approved</th>
+              <th className="tableHaad text-start">Status</th>
               <th className="tableHaad text-start">Session</th>
-              <th className="tableHaad text-start">Upload Date</th>
               <th className="tableHaad text-start">Unit</th>
+              <th className="tableHaad text-start">Missing</th>
             </tr>
           </thead>
           <tbody>
@@ -302,10 +316,14 @@ export default function AdminUploadResult() {
                     {result.approved ? "Approved" : "Pending"}
                   </td>
                   <td className="tableValue text-start">{result.session}</td>
-                  <td className="tableValue text-start">
-                    {new Date(result.uploadedAt).toLocaleTimeString()}
-                  </td>
                   <td className="tableValue text-start">{result.unit}</td>
+                  <td className="tableValue text-start">
+                    {result.approved || (!result.approved && result.testScore && result.examScore)
+                      ? "None"
+                      : result.testScore
+                      ? "Exam"
+                      : "Test"}
+                  </td>
                 </tr>
               ))
             ) : (

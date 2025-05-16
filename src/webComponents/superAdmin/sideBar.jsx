@@ -28,13 +28,11 @@ export default function SuperAdminSideBar({ isOpen, isMobile }) {
 const SuperAdminSidebarLinks = () => (
   <>
     <NavItem to="dashBoard">Dashboard</NavItem>
-    <NavItem to="manageLecturers">Manage Lecturers</NavItem>
     <NavItem to="approveRequest">Approve Course Requests</NavItem>
     <NavItem to="manageCourses">Manage Courses</NavItem>
     <NavItem to="manageResults">Manage Results</NavItem>
     <NavItem to="systemSettings">System Settings</NavItem>
-    <NavItem to="adminAccounts">Manage Admin Accounts</NavItem>
-    <NavItem to="helpSupport">Help/Support</NavItem>
+    <NavItem to="manageAdmin">Manage Admin Accounts</NavItem>
   </>
 );
 

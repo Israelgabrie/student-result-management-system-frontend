@@ -77,7 +77,7 @@ export default function SystemSettings() {
         </div> */}
 
         <button type="submit" className="save-btn">
-          Save Settings
+          Add Semester
         </button>
       </form>
     </div>

@@ -1,0 +1,732 @@
+/* Base Styles with unique class names for ManageStudents component */
+:root {
+    --ms-primary: #6f42c1;
+    --ms-primary-light: #9f75e5;
+    --ms-primary-dark: #5e35b1;
+    --ms-secondary: #f8f9fa;
+    --ms-text-dark: #343a40;
+    --ms-text-medium: #495057;
+    --ms-text-light: #6c757d;
+    --ms-border-color: #e9ecef;
+    --ms-success: #28a745;
+    --ms-info: #17a2b8;
+    --ms-warning: #ffc107;
+    --ms-danger: #dc3545;
+    --ms-orange: #fd7e14;
+    --ms-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+    --ms-shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
+    --ms-shadow-lg: 0 8px 15px rgba(0, 0, 0, 0.1);
+    --ms-radius-sm: 8px;
+    --ms-radius-md: 12px;
+    --ms-radius-lg: 16px;
+    --ms-radius-circle: 50%;
+    --ms-transition: all 0.3s ease;
+  }
+  
+  /* Container */
+  .ms-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  /* Header */
+  .ms-header {
+    margin-bottom: 1rem;
+  }
+  
+  .ms-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ms-text-dark);
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .ms-title::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: var(--ms-primary);
+    border-radius: 2px;
+  }
+  
+  .ms-subtitle {
+    font-size: 1rem;
+    color: var(--ms-text-light);
+    margin-top: 1rem;
+  }
+  
+  /* Search Section */
+  .ms-search-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: var(--ms-radius-md);
+    box-shadow: var(--ms-shadow-sm);
+    margin-bottom: 1rem;
+  }
+  
+  .ms-search-wrapper {
+    display: flex;
+    gap: 0.75rem;
+    flex: 2;
+    min-width: 300px;
+  }
+  
+  .ms-search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--ms-border-color);
+    border-radius: var(--ms-radius-sm);
+    font-size: 0.938rem;
+  }
+  
+  .ms-search-input:focus {
+    outline: none;
+    border-color: var(--ms-primary);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.1);
+  }
+  
+  .ms-search-button {
+    padding: 0.75rem 1.25rem;
+    background-color: var(--ms-primary);
+    color: white;
+    border: none;
+    border-radius: var(--ms-radius-sm);
+    font-size: 0.938rem;
+    cursor: pointer;
+    transition: var(--ms-transition);
+  }
+  
+  .ms-search-button:hover {
+    background-color: var(--ms-primary-dark);
+  }
+  
+  .ms-filter-wrapper {
+    display: flex;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .ms-filter-select {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--ms-border-color);
+    border-radius: var(--ms-radius-sm);
+    font-size: 0.938rem;
+    background-color: white;
+  }
+  
+  .ms-filter-select:focus {
+    outline: none;
+    border-color: var(--ms-primary);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.1);
+  }
+  
+  .ms-filter-label {
+    font-size: 0.938rem;
+    font-weight: 500;
+    color: var(--ms-text-medium);
+  }
+  
+  /* Cards */
+  .ms-profile-card,
+  .ms-performance-card {
+    background-color: white;
+    border-radius: var(--ms-radius-md);
+    box-shadow: var(--ms-shadow-sm);
+    overflow: hidden;
+    transition: var(--ms-transition);
+  }
+  
+  .ms-profile-card:hover,
+  .ms-performance-card:hover {
+    box-shadow: var(--ms-shadow-md);
+  }
+  
+  .ms-performance-card {
+    padding: 1.5rem;
+  }
+  
+  .ms-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ms-text-dark);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--ms-primary-light);
+  }
+  
+  /* Profile Section */
+  .ms-profile-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    align-items: center;
+  }
+  
+  .ms-profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--ms-radius-circle);
+    background-color: var(--ms-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  
+  .ms-profile-details {
+    flex: 2;
+    min-width: 250px;
+  }
+  
+  .ms-profile-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--ms-text-dark);
+  }
+  
+  .ms-profile-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .ms-profile-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .ms-info-label {
+    font-size: 0.813rem;
+    color: var(--ms-text-light);
+  }
+  
+  .ms-info-value {
+    font-size: 0.938rem;
+    font-weight: 500;
+    color: var(--ms-text-dark);
+  }
+  
+  .ms-profile-stats {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 200px;
+    justify-content: flex-end;
+  }
+  
+  .ms-stat-box {
+    text-align: center;
+    min-width: 70px;
+  }
+  
+  .ms-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ms-primary);
+  }
+  
+  .ms-stat-label {
+    font-size: 0.813rem;
+    color: var(--ms-text-light);
+    margin-top: 0.25rem;
+  }
+  
+  .ms-profile-actions {
+    display: flex;
+    gap: 1rem;
+    padding: 0 1.5rem 1.5rem;
+  }
+  
+  .ms-action-button {
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--ms-radius-sm);
+    font-size: 0.938rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: var(--ms-transition);
+    border: 1px solid var(--ms-primary);
+  }
+  
+  .ms-print-button,
+  .ms-export-button {
+    background-color: transparent;
+    color: var(--ms-primary);
+  }
+  
+  .ms-print-button:hover,
+  .ms-export-button:hover {
+    background-color: rgba(111, 66, 193, 0.1);
+  }
+  
+  .ms-button-icon {
+    font-size: 1rem;
+  }
+  
+  /* GPA Chart */
+  .ms-gpa-chart {
+    height: 250px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 1rem 0;
+    margin-top: 1rem;
+  }
+  
+  .ms-gpa-bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 120px;
+  }
+  
+  .ms-gpa-bar-wrapper {
+    height: 200px;
+    width: 50px;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+  }
+  
+  .ms-gpa-bar {
+    width: 100%;
+    background: linear-gradient(to top, var(--ms-primary), var(--ms-primary-light));
+    border-radius: 4px 4px 0 0;
+    position: relative;
+  }
+  
+  .ms-gpa-bar::after {
+    content: attr(data-value);
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ms-text-medium);
+  }
+  
+  .ms-gpa-label {
+    font-size: 0.813rem;
+    color: var(--ms-text-medium);
+    text-align: center;
+    margin-top: 0.5rem;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Grade Distribution */
+  .ms-grade-distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .ms-grade-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .ms-grade-label {
+    width: 30px;
+    font-size: 0.938rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .ms-grade-bar-container {
+    flex: 1;
+    height: 24px;
+    background-color: var(--ms-secondary);
+    border-radius: var(--ms-radius-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .ms-grade-bar {
+    height: 100%;
+    border-radius: var(--ms-radius-sm);
+  }
+  
+  .ms-grade-a {
+    background-color: var(--ms-success);
+  }
+  
+  .ms-grade-b {
+    background-color: var(--ms-info);
+  }
+  
+  .ms-grade-c {
+    background-color: var(--ms-warning);
+  }
+  
+  .ms-grade-d {
+    background-color: var(--ms-orange);
+  }
+  
+  .ms-grade-f {
+    background-color: var(--ms-danger);
+  }
+  
+  .ms-grade-count {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.813rem;
+    font-weight: 600;
+    color: white;
+  }
+  
+  .ms-grade-scale {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .ms-grade-scale-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.813rem;
+    color: var(--ms-text-medium);
+  }
+  
+  .ms-grade-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--ms-radius-circle);
+  }
+  
+  /* Course Performance */
+  .ms-semester-filter {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: var(--ms-secondary);
+    padding: 1rem;
+    border-radius: var(--ms-radius-sm);
+  }
+  
+  .ms-semester-select {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--ms-border-color);
+    border-radius: var(--ms-radius-sm);
+    font-size: 0.938rem;
+    background-color: white;
+    color: var(--ms-text-dark);
+    min-width: 200px;
+    cursor: pointer;
+  }
+  
+  .ms-semester-select:focus {
+    outline: none;
+    border-color: var(--ms-primary);
+    box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.1);
+  }
+  
+  .ms-course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .ms-course-card {
+    background-color: var(--ms-secondary);
+    border-radius: var(--ms-radius-sm);
+    padding: 1.25rem;
+    box-shadow: var(--ms-shadow-sm);
+    transition: var(--ms-transition);
+    border: 1px solid var(--ms-border-color);
+  }
+  
+  .ms-course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--ms-shadow-md);
+  }
+  
+  .ms-course-header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--ms-border-color);
+  }
+  
+  .ms-course-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--ms-text-dark);
+  }
+  
+  .ms-course-semester {
+    font-size: 0.813rem;
+    color: var(--ms-text-light);
+    background-color: rgba(111, 66, 193, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    display: inline-block;
+  }
+  
+  .ms-course-grade-display {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+    background-color: white;
+    padding: 1rem;
+    border-radius: var(--ms-radius-sm);
+  }
+  
+  .ms-grade-circle {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+  }
+  
+  .ms-grade-info {
+    flex: 1;
+  }
+  
+  .ms-grade-info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 0.938rem;
+    border-bottom: 1px dashed var(--ms-border-color);
+  }
+  
+  .ms-grade-info-item:last-child {
+    border-bottom: none;
+  }
+  
+  .ms-assessment-breakdown {
+    margin-top: 1.25rem;
+  }
+  
+  .ms-breakdown-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--ms-border-color);
+    color: var(--ms-text-dark);
+  }
+  
+  .ms-assessment-item {
+    margin-bottom: 1rem;
+  }
+  
+  .ms-assessment-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .ms-assessment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .ms-progress-bar {
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .ms-progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--ms-primary), var(--ms-primary-light));
+    border-radius: 5px;
+  }
+  
+  /* Insights Section */
+  .ms-insights-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .ms-insight-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    background-color: var(--ms-secondary);
+    border-radius: var(--ms-radius-sm);
+    transition: var(--ms-transition);
+  }
+  
+  .ms-insight-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--ms-shadow-sm);
+  }
+  
+  .ms-insight-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--ms-radius-circle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+  
+  .ms-icon-strength {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--ms-success);
+  }
+  
+  .ms-icon-improvement {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: var(--ms-warning);
+  }
+  
+  .ms-icon-recommendation {
+    background-color: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+  }
+  
+  .ms-insight-content {
+    flex: 1;
+  }
+  
+  .ms-insight-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--ms-text-dark);
+  }
+  
+  .ms-insight-list {
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+  
+  .ms-insight-list li {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--ms-text-medium);
+  }
+  
+  .ms-insight-list li:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 992px) {
+    .ms-container {
+      padding: 1.5rem;
+    }
+  
+    .ms-profile-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .ms-profile-stats {
+      justify-content: flex-start;
+      width: 100%;
+      margin-top: 1rem;
+    }
+  
+    .ms-course-grid,
+    .ms-insights-container {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .ms-container {
+      padding: 1rem;
+    }
+  
+    .ms-search-section,
+    .ms-filter-wrapper {
+      flex-direction: column;
+    }
+  
+    .ms-gpa-chart {
+      height: 200px;
+    }
+  
+    .ms-gpa-bar-wrapper {
+      height: 150px;
+      width: 40px;
+    }
+  
+    .ms-course-grade-display {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .ms-grade-info-item {
+      justify-content: center;
+    }
+  
+    .ms-insight-card {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .ms-insight-list {
+      text-align: left;
+    }
+  
+    .ms-semester-filter {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .ms-semester-select {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .ms-title {
+      font-size: 1.5rem;
+    }
+  
+    .ms-section-title {
+      font-size: 1.125rem;
+    }
+  
+    .ms-profile-info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
