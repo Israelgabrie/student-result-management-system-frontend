@@ -405,3 +405,96 @@ export async function fetchCourseAndSession(payload) {
     return { success: false, error: error.message };
   }
 }
+
+export async function getSemesterAndNext(payload) {
+  try {
+    const { data } = await axios.get(
+      `${serverAddress}/admin/semester/current-next`,
+      payload,
+      { withCredentials: true }
+    );
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch current and next semester :", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function changeAdminPassword(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/admin/change-password`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    console.error("Failed to change admin password:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function studentDashBoardSummary(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/student/studentResultSummary`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    console.error("Failed get student dashboard data", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function getStudentResult(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/student/viewResult`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    console.error("Failed get student result", error);
+    return { success: false, error: error.message };
+  }
+}
+
+
+export async function getStudentResultSessions(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/student/studentResultSessions`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    console.error("Failed get student results sessions", error);
+    return { success: false, error: error.message };
+  }
+}
+
+
+export async function getCourseAnalysis(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/student/courseAnalysis`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    console.error("Failed get student course analysis", error);
+    return { success: false, error: error.message };
+  }
+}
+
+

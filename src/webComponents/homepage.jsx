@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SuperAdminNavBar from './navBar';
 import SuperAdminSideBar from './sideBar';
 import { Outlet, useNavigate } from "react-router-dom";
-import { getLoggedInUser } from '../backendOperation';
+import { getLoggedInUser, studentDashBoardSummary } from '../backendOperation';
 import LoadingScreen from './loadingScreen';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +20,23 @@ export default function Homepage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { user, setUser } = useUser();
   const navigate = useNavigate();
+  const [dashboardDetails, setDashboardDetails] = useState({});
+
+  async function fetchDashBoardDetails(){
+    const response  =  await studentDashBoardSummary({studentId:user?._id});
+    if(response?.success){
+      console.log(response)
+      setDashboardDetails(response);
+    }else{
+      toast.error(response?.message || "Error fetching dashboard details");
+    }
+  }
+
+  useEffect(()=>{
+   if(user?._id){
+    fetchDashBoardDetails();
+   }
+  },[user?._id])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -123,7 +140,7 @@ export default function Homepage() {
             height: "calc(100vh - 77px)"
           }}
         >
-          <Outlet />
+          <Outlet context={{dashboardDetails, setDashboardDetails}} />
         </div>
       </div>
 

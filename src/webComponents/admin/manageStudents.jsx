@@ -109,6 +109,7 @@ export default function ManageStudents() {
                 <span className="ms-info-label">Total Results:</span>
                 <span className="ms-info-value">{studentData?.courses?.length}</span>
               </div>
+             
             </div>
           </div>
           <div className="ms-profile-stats">
@@ -119,10 +120,10 @@ export default function ManageStudents() {
            
             <div className="ms-stat-box">
               <div className="ms-stat-value">
-                {studentData?.student?.percentile || "NAN"}
-                <sup>th</sup>
+              {studentData?.student?.level}
+               
               </div>
-              <div className="ms-stat-label">Percentile</div>
+              <div className="ms-stat-label">Level</div>
             </div>
           </div>
         </div>

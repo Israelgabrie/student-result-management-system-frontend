@@ -1,36 +1,53 @@
-import { useState, useRef } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
-import { LockIcon, UserIcon, CalendarIcon } from "lucide-react"
+import { LockIcon, CalendarIcon } from "lucide-react"
 import "../../css/adminSettings.css"
+import { changeAdminPassword, getSemesterAndNext } from "../../backendOperation.js"
+import { useUser } from "../../userContext"
 
 export default function AdminSettings() {
-  // State for password change
+  const { user } = useUser()
+
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   })
 
-  // State for profile information
-  const [profileData, setProfileData] = useState({
-    fullName: "Admin User", // Default value, replace with actual data
-    email: "admin@example.com", // Default value, replace with actual data
+  const [sessionInfo, setSessionInfo] = useState({
+    currentSession: "",
+    currentSemester: "",
+    nextSession: "",
+    nextSemester: "",
   })
 
-  // State for profile picture
-  const [profilePicture, setProfilePicture] = useState(null)
-  const [previewUrl, setPreviewUrl] = useState(null)
-  const fileInputRef = useRef(null)
+  useEffect(()=>{
+    console.log(sessionInfo)
+  },[sessionInfo])
 
-  // Session information (read-only)
-  const sessionInfo = {
-    currentSession: "2024/2025",
-    currentSemester: "First Semester",
-    nextSession: "2025/2026",
-    nextSemester: "First Semester",
-  }
+  useEffect(() => {
+    async function fetchSemesterDetails() {
+      try {
+        const response = await getSemesterAndNext();
+        console.log(response)
+        if (response.success) {
+          setSessionInfo({
+            currentSession: response.current.session,
+            currentSemester: response.current.semester + " Semester",
+            nextSession: response.next.session,
+            nextSemester: response.next.semester + " Semester",
+          })
+        } else {
+          toast.error("Failed to load session information.")
+        }
+      } catch (err) {
+        toast.error("An error occurred while fetching session info.")
+      }
+    }
 
-  // Handle password change inputs
+    fetchSemesterDetails()
+  }, [])
+
   const handlePasswordChange = (e) => {
     const { name, value } = e.target
     setPasswordData({
@@ -39,38 +56,9 @@ export default function AdminSettings() {
     })
   }
 
-  // Handle profile data inputs
-  const handleProfileChange = (e) => {
-    const { name, value } = e.target
-    setProfileData({
-      ...profileData,
-      [name]: value,
-    })
-  }
-
-  // Handle profile picture change
-  const handlePictureChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      setProfilePicture(file)
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result)
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
-  // Trigger file input click
-  const triggerFileInput = () => {
-    fileInputRef.current.click()
-  }
-
-  // Submit password change
-  const submitPasswordChange = (e) => {
+  const submitPasswordChange = async (e) => {
     e.preventDefault()
 
-    // Validate passwords
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       toast.error("New passwords do not match")
       return
@@ -81,30 +69,27 @@ export default function AdminSettings() {
       return
     }
 
-    // Here you would call your API to change the password
-    toast.success("Password updated successfully")
+    try {
+      const response = await changeAdminPassword({
+        adminId: user._id,
+        oldPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword,
+      })
+      console.log(response)
 
-    // Reset form
-    setPasswordData({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    })
-  }
-
-  // Submit profile update
-  const submitProfileUpdate = (e) => {
-    e.preventDefault()
-
-    // Validate email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(profileData.email)) {
-      toast.error("Please enter a valid email address")
-      return
+      if (response.success) {
+        toast.success("Password updated successfully")
+        setPasswordData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        })
+      } else {
+        toast.error(response.message || "Failed to change password")
+      }
+    } catch (error) {
+      toast.error("An error occurred while changing the password")
     }
-
-    // Here you would call your API to update the profile
-    toast.success("Profile updated successfully")
   }
 
   return (
@@ -164,67 +149,6 @@ export default function AdminSettings() {
 
               <button type="submit" className="adm-btn adm-btn-primary">
                 Update Password
-              </button>
-            </form>
-          </div>
-        </section>
-
-        {/* Profile Information Section */}
-        <section className="adm-settings-card">
-          <div className="adm-settings-card-header">
-            <div className="adm-settings-icon">
-              <UserIcon size={20} />
-            </div>
-            <h2>Profile Information</h2>
-          </div>
-          <div className="adm-settings-card-content">
-            <form onSubmit={submitProfileUpdate}>
-              <div className="adm-profile-picture-container">
-                <div
-                  className="adm-profile-picture"
-                  style={{ backgroundImage: previewUrl ? `url(${previewUrl})` : "none" }}
-                  onClick={triggerFileInput}
-                >
-                  {!previewUrl && <span>Upload Photo</span>}
-                </div>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handlePictureChange}
-                  accept="image/*"
-                  style={{ display: "none" }}
-                />
-                <button type="button" className="adm-btn adm-btn-secondary adm-btn-sm" onClick={triggerFileInput}>
-                  Change Picture
-                </button>
-              </div>
-
-              <div className="adm-form-group">
-                <label htmlFor="fullName">Full Name</label>
-                <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={profileData.fullName}
-                  onChange={handleProfileChange}
-                  required
-                />
-              </div>
-
-              <div className="adm-form-group">
-                <label htmlFor="email">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={profileData.email}
-                  onChange={handleProfileChange}
-                  required
-                />
-              </div>
-
-              <button type="submit" className="adm-btn adm-btn-primary">
-                Update Profile
               </button>
             </form>
           </div>
