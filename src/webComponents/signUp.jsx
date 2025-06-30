@@ -78,6 +78,7 @@ export default function SignUp() {
     setLoading(true);
     try {
       const { data } = await addUser(formData);
+    
       if (data.success) {
         toast.success(data.message);
         setTimeout(() => {

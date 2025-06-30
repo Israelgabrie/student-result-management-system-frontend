@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import SuperAdminNavBar from './navBar';
-import SuperAdminSideBar from './sideBar';
+import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import SuperAdminNavBar from "./navBar";
+import SuperAdminSideBar from "./sideBar";
 import { Outlet, useNavigate } from "react-router-dom";
-import { getLoggedInUser, studentDashBoardSummary } from '../backendOperation';
-import LoadingScreen from './loadingScreen';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useUser } from '../userContext';
-import { socket } from '../backendOperation';
-import NavBar from './navBar';
-import SideBar from './sideBar';
-
+import { getLoggedInUser, studentDashBoardSummary } from "../backendOperation";
+import LoadingScreen from "./loadingScreen";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "../userContext.jsx";
+import { socket } from "../backendOperation";
+import NavBar from "./navBar";
+import SideBar from "./sideBar";
 
 // This is the homepage componenet for the students
 export default function Homepage() {
@@ -22,21 +21,25 @@ export default function Homepage() {
   const navigate = useNavigate();
   const [dashboardDetails, setDashboardDetails] = useState({});
 
-  async function fetchDashBoardDetails(){
-    const response  =  await studentDashBoardSummary({studentId:user?._id});
-    if(response?.success){
-      console.log(response)
-      setDashboardDetails(response);
-    }else{
-      toast.error(response?.message || "Error fetching dashboard details");
+  async function fetchDashBoardDetails() {
+    try {
+      const response = await studentDashBoardSummary({ studentId: user?._id });
+      if (response?.success) {
+        console.log(response);
+        setDashboardDetails(response);
+      } else {
+        toast.error(response?.error || "Error fetching dashboard details");
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   }
 
-  useEffect(()=>{
-   if(user?._id){
-    fetchDashBoardDetails();
-   }
-  },[user?._id])
+  useEffect(() => {
+    if (user?._id) {
+      fetchDashBoardDetails();
+    }
+  }, [user?._id]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -47,7 +50,7 @@ export default function Homepage() {
           const response = await getLoggedInUser();
 
           if (response?.success) {
-            setIsLoggedIn(true)
+            setIsLoggedIn(true);
             currentUser = response.user;
             setUser(currentUser);
             toast.success("Logged in successfully");
@@ -60,7 +63,6 @@ export default function Homepage() {
 
         // Redirect based on role
         if (currentUser.accountType === "student") {
-          
         }
         if (currentUser.accountType === "admin") {
           navigate("/admin", { replace: true });
@@ -78,9 +80,10 @@ export default function Homepage() {
         // Listen for privilege requests
         socket.emit("join-super-admin-room", currentUser._id);
         socket.on("newPrivilegeRequest", (data) => {
-          toast.info(`New privilege request: ${data.courseCode} by ${data.lecturerName}`);
+          toast.info(
+            `New privilege request: ${data.courseCode} by ${data.lecturerName}`
+          );
         });
-
       } catch (error) {
         console.error("Error fetching user:", error);
         toast.error("An error occurred while verifying login.");
@@ -120,7 +123,7 @@ export default function Homepage() {
         paddingTop: "77px",
         overflowY: "hidden",
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
       }}
     >
       <ToastContainer />
@@ -137,10 +140,10 @@ export default function Homepage() {
           style={{
             flexGrow: 1,
             overflowY: "auto",
-            height: "calc(100vh - 77px)"
+            height: "calc(100vh - 77px)",
           }}
         >
-          <Outlet context={{dashboardDetails, setDashboardDetails}} />
+          <Outlet context={{ dashboardDetails, setDashboardDetails }} />
         </div>
       </div>
 

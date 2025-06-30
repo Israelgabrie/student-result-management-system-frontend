@@ -33,6 +33,9 @@ const SuperAdminSidebarLinks = () => (
     <NavItem to="manageResults">Manage Results</NavItem>
     <NavItem to="systemSettings">System Settings</NavItem>
     <NavItem to="manageAdmin">Manage Admin Accounts</NavItem>
+    <NavItem to="event">Events</NavItem>
+    <NavItem to="complaint">Manage Complaint</NavItem>
+    <NavItem to="downloadCourse">Download Course</NavItem>
   </>
 );
 

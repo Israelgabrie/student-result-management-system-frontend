@@ -251,9 +251,14 @@ export default function SuperAdminDashboard() {
         <div className="activity-card">
           <div className="activity-header">
             <h3>Recent Results</h3>
-            <button className="view-all-btn" onClick={(()=>{
-              navigate("/superAdmin/manageResults")
-            })}>View All</button>
+            <button
+              className="view-all-btn"
+              onClick={() => {
+                navigate("/superAdmin/manageResults");
+              }}
+            >
+              View All
+            </button>
           </div>
           <div className="table-container">
             <table className="activity-table">
@@ -297,9 +302,14 @@ export default function SuperAdminDashboard() {
         <div className="activity-card">
           <div className="activity-header">
             <h3>Recent Privilege Requests</h3>
-            <button className="view-all-btn" onClick={(()=>{
-              navigate("/superAdmin/approveRequest")
-            })}>View All</button>
+            <button
+              className="view-all-btn"
+              onClick={() => {
+                navigate("/superAdmin/approveRequest");
+              }}
+            >
+              View All
+            </button>
           </div>
           <div className="table-container">
             <table className="activity-table">
@@ -369,10 +379,16 @@ export default function SuperAdminDashboard() {
               navigate("/superAdmin/manageCourses");
             }}
           >
+            {" "}
             <span className="action-icon">📚</span>
             <span>Add Course</span>
           </button>
-          <button className="action-button view-reports">
+          <button
+            className="action-button view-reports"
+            onClick={() => {
+              navigate("/superAdmin/complaint");
+            }}
+          >
             <span className="action-icon">📊</span>
             <span>View Reports</span>
           </button>

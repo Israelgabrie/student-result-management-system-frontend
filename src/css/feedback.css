@@ -1,0 +1,123 @@
+.feedback-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.feedback-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.feedback-form select,
+.feedback-form textarea {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #006ef5;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.feedback-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.feedback-form button {
+  align-self: flex-start;
+  background-color: #006ef5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.feedback-form button:hover {
+  background-color: #0050b3;
+}
+
+.feedback-browser {
+  margin-top: 20px;
+}
+
+.feedback-browser h3 {
+  color: #006ef5;
+  margin-bottom: 10px;
+}
+
+.feedback-search {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.feedback-search input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #006ef5;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.feedback-search button {
+  background-color: #006ef5;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.feedback-search button:hover {
+  background-color: #0047b3;
+}
+
+.feedback-list {
+  display: grid;
+  gap: 20px;
+}
+
+.feedback-item {
+  background-color: #f0f7ff;
+  border-left: 5px solid #006ef5;
+  padding: 15px 20px;
+  border-radius: 10px;
+}
+
+.feedback-item h4 {
+  margin-bottom: 5px;
+  color: #003e94;
+}
+
+.feedback-text {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.feedback-session {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.no-feedback {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+}

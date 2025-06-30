@@ -47,6 +47,10 @@ export default function ApproveCourseRequest() {
     }
   }
 
+  useEffect(()=>{
+    console.log("All Requests: ", allRequests);
+  },[allRequests])
+
   return (
     <div className="homePageContent containerBox">
       {/* Pending Section */}

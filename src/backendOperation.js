@@ -1,7 +1,7 @@
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const serverAddress = "http://localhost:4200";
+export const serverAddress = "http://localhost:4200";
 
 // Initialize socket after importing io
 export const socket = io(serverAddress, {
@@ -40,7 +40,6 @@ export async function getUser(requestBody) {
         withCredentials: true,
       }
     );
-    console.log(response);
     return response;
   } catch (error) {
     console.log("Error fetching user: " + error.message);
@@ -51,10 +50,12 @@ export async function getUser(requestBody) {
 export async function addUser(newUser) {
   try {
     const response = await axios.post(`${serverAddress}/user/adduser`, newUser);
+    console.log(response)
     return response;
   } catch (error) {
+    console.log(error)
     console.log("error adding new user " + error.message);
-    return error;
+    return error.response;
   }
 }
 
@@ -168,6 +169,45 @@ export async function getUploadResultData(requestObject) {
     return error;
   }
 }
+
+export async function downloadCourseResultPdf({ courseCode, session }) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/superAdmin/generateCourseResultPdf`,
+      { courseCode, session },
+      {
+        responseType: "blob", // ⬅️ Important to handle binary PDF
+        withCredentials: true,
+      }
+    );
+
+    const blob = new Blob([response.data], { type: "application/pdf" });
+
+    // Create a link and trigger download
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+
+    // Construct a filename
+    const filename = session
+      ? `${courseCode}_${session}_results.pdf`
+      : `${courseCode}_all_sessions_results.pdf`;
+
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up
+    link.remove();
+    window.URL.revokeObjectURL(url);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to download course result PDF", error);
+    return { success: false, error: error.message };
+  }
+}
+
 
 export async function getManageStudentData(requestObject) {
   try {
@@ -391,7 +431,6 @@ export async function fetchCourseOrSessionAnalysis(payload) {
   }
 }
 
-
 export async function fetchCourseAndSession(payload) {
   try {
     const { data } = await axios.get(
@@ -402,6 +441,20 @@ export async function fetchCourseAndSession(payload) {
     return data;
   } catch (error) {
     console.error("Failed to fetch course/session analysis:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function logUserOut() {
+  try {
+    const { data } = await axios.post(
+      `${serverAddress}/user/logout`,
+      {}, // body (empty since logout doesn't require any data)
+      { withCredentials: true }
+    );
+    return data;
+  } catch (error) {
+    console.error("Failed to log user out", error);
     return { success: false, error: error.message };
   }
 }
@@ -420,6 +473,65 @@ export async function getSemesterAndNext(payload) {
   }
 }
 
+export async function uploadMarkSheetFunc(payload) {
+  try {
+    const formData = new FormData();
+    formData.append("file", payload.file); // ✅ attaches the file
+    formData.append("userId", payload.userId); // ✅ attaches the userId
+
+    const response = await axios.post(
+      `${serverAddress}/admin/upload-marksheet`, // ❌ removed extra slash
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data", // ✅ required for file uploads
+        },
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Failed to upload marksheet", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function downloadMarkSheetFunc(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/admin/generate-marksheet`,
+      payload,
+      {
+        responseType: "blob", // 👈 KEY STEP
+        withCredentials: true,
+      }
+    );
+
+    // Create a Blob from the response
+    const blob = new Blob([response.data], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    // Create a temporary link to trigger download
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "marksheet.xlsx"; // Optional: customize filename
+    document.body.appendChild(a);
+    a.click();
+
+    // Cleanup
+    a.remove();
+    window.URL.revokeObjectURL(url);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to download marksheet", error);
+    return { success: false, error: error.message };
+  }
+}
+
 export async function changeAdminPassword(payload) {
   try {
     const response = await axios.post(
@@ -427,7 +539,6 @@ export async function changeAdminPassword(payload) {
       payload,
       { withCredentials: true }
     );
-    console.log(response)
     return response.data;
   } catch (error) {
     console.error("Failed to change admin password:", error);
@@ -442,7 +553,6 @@ export async function studentDashBoardSummary(payload) {
       payload,
       { withCredentials: true }
     );
-    console.log(response)
     return response.data;
   } catch (error) {
     console.error("Failed get student dashboard data", error);
@@ -457,14 +567,12 @@ export async function getStudentResult(payload) {
       payload,
       { withCredentials: true }
     );
-    console.log(response)
     return response.data;
   } catch (error) {
     console.error("Failed get student result", error);
     return { success: false, error: error.message };
   }
 }
-
 
 export async function getStudentResultSessions(payload) {
   try {
@@ -473,14 +581,12 @@ export async function getStudentResultSessions(payload) {
       payload,
       { withCredentials: true }
     );
-    console.log(response)
     return response.data;
   } catch (error) {
     console.error("Failed get student results sessions", error);
     return { success: false, error: error.message };
   }
 }
-
 
 export async function getCourseAnalysis(payload) {
   try {
@@ -489,7 +595,6 @@ export async function getCourseAnalysis(payload) {
       payload,
       { withCredentials: true }
     );
-    console.log(response)
     return response.data;
   } catch (error) {
     console.error("Failed get student course analysis", error);
@@ -497,4 +602,243 @@ export async function getCourseAnalysis(payload) {
   }
 }
 
+export async function getStudentComplaints(payload) {
+  try {
+    const response = await axios.get(
+      `${serverAddress}/student/getComplaintTypes`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Failed get student complaints", error);
+    return { success: false, error: error.message };
+  }
+}
 
+export async function getAllCourses() {
+  try {
+    const response = await axios.get(`${serverAddress}/student/courses`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed get all courses", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function addStudentComplaint(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/student/addComplaint`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to add student complaints", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function fetchStudentComplaints(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/student/getStudentComplaints`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Failed get student complaints", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function deleteStudentComaplint(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/student/deleteStudentComplaint`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Failed get delete student complaints", error);
+    return { success: false, error: error.message };
+  }
+}
+
+
+export async function downloadStudentResultPdf(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/student/downloadResult`,
+      payload,
+      {
+        responseType: "blob", // Important for downloading files
+        withCredentials: true,
+      }
+    );
+
+    const blob = new Blob([response.data], { type: "application/pdf" });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${payload.matricNumber}_result_${payload.session.replace("/", "-")}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+
+    // Cleanup
+    link.remove();
+    window.URL.revokeObjectURL(url);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to download student result", error);
+    return { success: false, error: error.message };
+  }
+}
+
+
+export async function getAllComplaints(payload) {
+  try {
+    const response = await axios.get(
+      `${serverAddress}/superAdmin/allComplaints`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Failed get student complaints", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function updateComplaint(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/superAdmin/updateComplaintStatus`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Failed get update complaint status", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function getallEvents(payload) {
+  try {
+    const response = await axios.get(
+      `${serverAddress}/superAdmin/events`,
+      payload,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed get update complaint status", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function addEvent(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/superAdmin/add-event`,
+      payload,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed get update complaint status", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function deleteEvent(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/superAdmin/deleteEvent`,
+      payload,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed get update complaint status", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function getAllSessions() {
+  try {
+    const response = await axios.get(`${serverAddress}/student/getAllSessions`);
+    return response.data;
+  } catch (error) {
+    console.error(`error getting sessions ${error}`);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function addCourseFeedback(payload) {
+  try {
+    const response = await axios.post(
+      `${serverAddress}/student/addCourseFeedback`,
+      payload,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed get update complaint status", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function randomCourseFeedback(payload) {
+  try {
+    const response = await axios.get(
+      `${serverAddress}/student/randomCourseFeedback`,
+      payload,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed get update complaint status", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function searchCourseFeedback(payload) {
+  try {
+    const response = await axios.get(
+      `${serverAddress}/student/searchCourseFeedback`,
+      payload,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed get update complaint status", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function getActiveSemesterAndSession(payload) {
+  try {
+    const response = await axios.get(
+      `${serverAddress}/student/getActiveSemesterAndSession`,
+      payload,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed gettinf active semester and session", error);
+    return { success: false, error: error.message };
+  }
+}

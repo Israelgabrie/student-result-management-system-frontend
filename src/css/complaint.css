@@ -1,0 +1,419 @@
+/* Student Complaints Styles with unique class names */
+.sc-main-wrapper {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Scrollbar styling */
+.sc-main-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sc-main-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.sc-main-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 110, 245, 0.3);
+  border-radius: 10px;
+}
+
+.sc-main-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 110, 245, 0.5);
+}
+
+/* Header section */
+.sc-page-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 110, 245, 0.1);
+}
+
+.sc-page-title {
+  font-family: "CalibreBold", sans-serif;
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.sc-page-subtitle {
+  font-family: "CalibreRegular", sans-serif;
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Section headings */
+.sc-section-heading {
+  font-family: "CalibreBold", sans-serif;
+  font-size: 1.25rem;
+  color: #333;
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(0, 110, 245, 0.1);
+}
+
+/* Form section */
+.sc-form-wrapper {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 110, 245, 0.1);
+}
+
+.sc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sc-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sc-label {
+  font-family: "CalibreBold", sans-serif;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.sc-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sc-expand-btn {
+  font-family: "CalibreRegular", sans-serif;
+  font-size: 0.85rem;
+  color: #006ef5;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.sc-input,
+.sc-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-family: "CalibreRegular", sans-serif;
+  font-size: 0.95rem;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.sc-input:focus,
+.sc-select:focus,
+.sc-textarea:focus {
+  border-color: #006ef5;
+}
+
+.sc-textarea {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-family: "CalibreRegular", sans-serif;
+  font-size: 0.95rem;
+  color: #333;
+  min-height: 120px;
+  resize: vertical;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.sc-textarea-expanded {
+  min-height: 250px;
+}
+
+.sc-char-count {
+  font-family: "CalibreRegular", sans-serif;
+  font-size: 0.8rem;
+  color: #888;
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+/* File upload */
+.sc-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sc-file-input {
+  display: none;
+}
+
+.sc-file-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(0, 110, 245, 0.1);
+  color: #006ef5;
+  border-radius: 6px;
+  font-family: "CalibreBold", sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: fit-content;
+}
+
+.sc-file-label:hover {
+  background-color: rgba(0, 110, 245, 0.2);
+}
+
+.sc-file-hint {
+  font-family: "CalibreRegular", sans-serif;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* Submit button */
+.sc-submit-btn {
+  padding: 0.875rem 1.5rem;
+  background-color: #006ef5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: "CalibreBold", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 0.5rem;
+  align-self: flex-start;
+}
+
+.sc-submit-btn:hover {
+  background-color: #0055c8;
+}
+
+/* Previous Complaints */
+.sc-history-wrapper {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 110, 245, 0.1);
+}
+
+.sc-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sc-complaint-item {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sc-complaint-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sc-complaint-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.sc-complaint-meta {
+  flex: 1;
+}
+
+.sc-complaint-subject {
+  font-family: "CalibreBold", sans-serif;
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0 0 0.25rem 0;
+}
+
+.sc-complaint-date {
+  font-family: "CalibreRegular", sans-serif;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* Status badges */
+.sc-status-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-family: "CalibreBold", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.sc-badge-pending {
+  background-color: #fff8e1;
+  color: #ffa000;
+  border: 1px solid rgba(255, 160, 0, 0.2);
+}
+
+.sc-badge-progress {
+  background-color: #e3f2fd;
+  color: #006ef5;
+  border: 1px solid rgba(0, 110, 245, 0.2);
+}
+
+.sc-badge-resolved {
+  background-color: #e8f5e9;
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.sc-badge-rejected {
+  background-color: #ffebee;
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.2);
+}
+
+.sc-complaint-body {
+  font-family: "CalibreRegular", sans-serif;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #eee;
+}
+
+.sc-complaint-footer {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.sc-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-family: "CalibreBold", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sc-btn-view {
+  background-color: rgba(0, 110, 245, 0.1);
+  color: #006ef5;
+  border: 1px solid rgba(0, 110, 245, 0.2);
+}
+
+.sc-btn-view:hover {
+  background-color: rgba(0, 110, 245, 0.2);
+}
+
+.sc-btn-cancel {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.2);
+}
+
+.sc-btn-cancel:hover {
+  background-color: rgba(244, 67, 54, 0.2);
+}
+
+/* Empty state */
+.sc-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+  color: #888;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px dashed #ddd;
+}
+
+.sc-empty-state svg {
+  color: #ccc;
+}
+
+.sc-empty-state p {
+  font-family: "CalibreRegular", sans-serif;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .sc-main-wrapper {
+    padding: 1rem;
+  }
+  
+  .sc-form-wrapper,
+  .sc-history-wrapper {
+    padding: 1.25rem;
+  }
+  
+  .sc-complaint-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .sc-status-badge {
+    align-self: flex-start;
+  }
+  
+  .sc-complaint-footer {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .sc-btn {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .sc-submit-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .sc-page-title {
+    font-size: 1.5rem;
+  }
+  
+  .sc-section-heading {
+    font-size: 1.1rem;
+  }
+  
+  .sc-complaint-subject {
+    font-size: 1rem;
+  }
+  
+  .sc-complaint-body {
+    font-size: 0.9rem;
+  }
+  
+  .sc-file-label {
+    width: 100%;
+    justify-content: center;
+  }
+}

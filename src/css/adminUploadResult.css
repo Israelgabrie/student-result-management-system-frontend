@@ -1,170 +1,222 @@
-.uploadResultBox {
-    border: 1px solid rgb(210, 206, 206);
-    border-radius: 8px;
-    padding: 20px;
-    width: 100%;
-    background-color: #f9f9f9;
-    margin-bottom: 40px;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.marksheetToolsSection {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e5e5;
+}
+
+.marksheetTitle {
+  font-size: 24px;
+  font-weight: 600;
+  /* color: #006ef5; */
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.marksheetTools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 768px) {
+  .marksheetTools {
+    grid-template-columns: 1fr;
   }
-  
-  .uploadTitle {
-    font-family: "CalibreBold";
-    font-size: 26px;
-    margin-bottom: 8px;
-  }
-  
-  .uploadSubtitle {
-    font-family: "CalibreRegular";
-    font-size: 16px;
-    color: #7b7272;
-    margin-bottom: 20px;
-  }
-  
-  .uploadResultTypeBoxes {
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    gap: 10px;
-  }
-  
-  .uploadResultTypeBox {
-    background-color: white;
-    flex: 1;
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "CalibreBold";
-    font-size: 16px;
-    border: 2px solid #006ef5;
-    color: #006ef5;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .uploadResultTypeBox:hover {
-    background-color: #006ef5;
-    color: white;
-  }
-  
-  .uploadResultForms {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-  }
-  
-  .uploadResultFormRow {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .uploadResultFormBox {
-    flex: 1;
-    min-width: 220px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .uploadResultFormLabel {
-    font-family: "CalibreBold";
-    font-size: 16px;
-  }
-  
-  .uploadResultInput {
-    height: 40px;
-    border-radius: 5px;
-    border: 2px solid rgb(210, 206, 206);
-    padding-left: 10px;
-    font-size: 15px;
-  }
-  
-  .scoreInputs {
-    display: flex;
-    gap: 15px;
-    flex: 1;
-  }
-  
-  .smuploadResultFormBox {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .smuploadResultInput {
-    height: 40px;
-    border-radius: 5px;
-    border: 2px solid rgb(210, 206, 206);
-    padding-left: 10px;
-    font-size: 15px;
-  }
-  
-  .addResultBtn {
-    align-self: flex-end;
-    background-color: #006ef5;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-family: "CalibreBold";
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .addResultBtn:hover {
-    background-color: #0056c2;
-  }
-  
-  .manageResultBox {
-    border: 1px solid rgb(210, 206, 206);
-    border-radius: 8px;
-    padding: 20px;
-    width: 100%;
-    background-color: #f9f9f9;
-  }
-  
-  .manageResultHead {
-    font-family: "CalibreBold";
-    font-size: 24px;
-    margin-bottom: 5px;
-  }
-  
-  .manageResultText {
-    font-family: "CalibreRegular";
-    font-size: 16px;
-    color: #7b7272;
-  }
-  
-  .manageResultSeachBox {
-    margin-top: 15px;
-    border: 2px solid rgb(210, 206, 206);
-    display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-  
-  .manageResultInput {
-    border: none;
-    outline: none;
-    padding-left: 10px;
-    font-family: "CalibreRegular";
-    font-size: 16px;
-    flex: 1;
-    background: transparent;
-  }
-  
-  .tableHaad {
-    font-family: "CalibreBold";
-    font-size: 16px;
-  }
-  
-  .tableValue {
-    font-family: "CalibreRegular";
-    font-size: 15px;
-  }
-  
+}
+
+.downloadSection,
+.uploadSection {
+  padding: 25px;
+  border: 1px solid #006ef5;
+  border-radius: 10px;
+  background: #f8fbff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.downloadSection h3,
+.uploadSection h3 {
+  color: #006ef5;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.formSelect {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  background: white;
+}
+
+.formSelect:focus {
+  outline: none;
+  border-color: #006ef5;
+  box-shadow: 0 0 0 2px rgba(0, 110, 245, 0.2);
+}
+
+.fileUploadArea {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileLabel {
+  display: block;
+  padding: 15px;
+  border: 2px dashed #006ef5;
+  border-radius: 8px;
+  background: white;
+  color: #006ef5;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.fileLabel:hover {
+  background: #006ef5;
+  color: white;
+}
+
+.downloadBtn,
+.uploadBtn {
+  width: 100%;
+  padding: 12px;
+  background: #006ef5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.downloadBtn:hover,
+.uploadBtn:hover {
+  background: #0056c7;
+}
+
+.downloadBtn:disabled,
+.uploadBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.manageResultBox {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e5e5;
+}
+
+.manageResultHead {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.manageResultText {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.manageResultSeachBox {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.manageResultInput {
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.manageResultSeachBox svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tableHaad {
+  background: #006ef5;
+  color: white;
+  padding: 12px;
+  font-weight: 600;
+  border: 1px solid #006ef5;
+}
+
+.tableValue {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.table tbody tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.table tbody tr:hover {
+  background: #e3f2fd;
+}
+
+.text-start {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.p-3 {
+  padding: 1rem;
+}

@@ -4,6 +4,8 @@ import { useUser } from "../userContext";
 import { useOutletContext } from "react-router-dom";
 import Chart from 'chart.js/auto'; // You'll need to install this: npm install chart.js
 import "../css/dashboard.css"; // Assuming you have a CSS file for styling
+import { getActiveSemesterAndSession } from "../backendOperation";
+import { toast } from "react-toastify";
 
 export default function Dashboard() {
   const { user } = useUser();
@@ -11,12 +13,13 @@ export default function Dashboard() {
   const [viewType, setViewType] = useState("test"); // test or exam
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-
+  const [currentSemesterAndSession,setCurrentSemesterAndSession] = useState({})
   const fullName = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim();
   const GPA = dashboardDetails?.GPA ?? "NaN";
   const totalCourses = dashboardDetails?.totalCourses ?? "NaN";
   const totalUnits = dashboardDetails?.totalUnits ?? "NaN";
   const results = dashboardDetails?.results ?? [];
+
 
   const currentSession = "2024/2025"; // You can make this dynamic if needed
   const currentResults = results?.filter(
@@ -42,6 +45,25 @@ export default function Dashboard() {
     
     return grades;
   };
+
+  async function fetchActiveSemesterAndSession(){
+    try{
+      const response = await getActiveSemesterAndSession();
+      console.log(response)
+      if(response.success){
+        setCurrentSemesterAndSession(response.sesmesterAndSession[0] || {})
+      }
+
+    }catch(error){
+      toast.error(error.message);
+    }
+  }
+
+  
+
+  useEffect(()=>{
+    fetchActiveSemesterAndSession()
+  },[])
 
   // Initialize chart
   useEffect(() => {
@@ -113,7 +135,9 @@ export default function Dashboard() {
       <div className="dashboard-header">
         <h1 className="welcome-message">{getWelcomeMessage(fullName || "Student")}</h1>
         <div className="session-info">
-          <span>Current Session:</span> {currentSession}
+          <span>Current semester:</span> {currentSemesterAndSession?.semester || "N/A"}
+          {"    "}
+          <span>Current Session:</span> {currentSemesterAndSession?.session || "N/A"}
         </div>
       </div>
 

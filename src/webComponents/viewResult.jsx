@@ -7,6 +7,7 @@ import {
   getStudentResultSessions,
   getStudentResult,
   getCourseAnalysis,
+  downloadStudentResultPdf,
 } from "../backendOperation";
 import { toast } from "react-toastify"; // Assuming you're using react-toastify
 import "../css/viewResult.css"; // Assuming you have a CSS file for styling
@@ -16,13 +17,20 @@ export default function ViewResult() {
   const [sessions, setSessions] = useState([]);
   const [selectedSession, setSelectedSession] = useState("");
   const [selectedSemester, setSelectedSemester] = useState("First");
-  const [resultData, setResultData] = useState(null);
+  const [resultData, setResultData] = useState({});
   const [loading, setLoading] = useState(false);
   const [courseAnalysis, setCourseAnalysis] = useState({
     courseCode: "",
     session: "",
   });
-  const [courseAnalysisData, setCourseAnalysisData] = useState({});
+  const [courseAnalysisData, setCourseAnalysisData] = useState({
+    gradeCounts: {}, // prevent Object.entries(undefined) error
+    courseCode: "",
+    courseTitle: "",
+    lecturer: "",
+    session: "",
+    passRate: 0,
+  });
 
   // Chart data for course analysis
   const data = [
@@ -64,6 +72,8 @@ export default function ViewResult() {
         semester: selectedSemester,
         session: selectedSession,
       });
+
+      console.log(response);
 
       if (response.success) {
         setResultData(response);
@@ -123,6 +133,40 @@ export default function ViewResult() {
     }
   }
 
+
+async function handleStudentResultDownload() {
+  try {
+    const { idNumber } = user || {};
+
+    // ✅ Validate both required inputs
+    if (!idNumber || !selectedSession) {
+      toast.error("Please select a valid session and ensure you're logged in.");
+      return;
+    }
+
+    // ✅ Optional: show loading feedback
+    const loadingToast = toast.loading("Preparing your result...");
+
+    const result = await downloadStudentResultPdf({
+      matricNumber: idNumber,
+      session: selectedSession,
+    });
+
+    toast.dismiss(loadingToast); // remove loading state
+
+    if (!result.success) {
+      toast.error(`Download failed: ${result.error}`);
+    } else {
+      toast.success("Result downloaded successfully!");
+    }
+
+  } catch (error) {
+    toast.error("Something went wrong while downloading the result.");
+    console.error("Download error:", error);
+  }
+}
+
+
   useEffect(() => {
     console.log(courseAnalysisData);
   }, [courseAnalysisData]);
@@ -164,10 +208,10 @@ export default function ViewResult() {
               setSelectedSession(e.target.value);
             }}
             className="result-select"
-            disabled={sessions.length === 0}
+            disabled={sessions?.length === 0}
           >
-            {sessions.length > 0 ? (
-              sessions.map((session, index) => (
+            {sessions?.length > 0 ? (
+              sessions?.map((session, index) => (
                 <option key={index} value={session}>
                   {session}
                 </option>
@@ -195,16 +239,16 @@ export default function ViewResult() {
             </div>
             <div className="student-info">
               <p>
-                <strong>Name:</strong> {resultData.student.fullName}
+                <strong>Name:</strong> {resultData?.student?.fullName}
               </p>
               <p>
-                <strong>ID:</strong> {resultData.student.idNumber}
+                <strong>ID:</strong> {resultData?.student?.idNumber}
               </p>
               <p>
-                <strong>Department:</strong> {resultData.student.department}
+                <strong>Department:</strong> {resultData?.student?.department}
               </p>
               <p>
-                <strong>Programme:</strong> {resultData.student.programme}
+                <strong>Programme:</strong> {resultData?.student?.programme}
               </p>
             </div>
           </div>
@@ -212,15 +256,15 @@ export default function ViewResult() {
           <div className="result-summary-grid">
             <div className="result-summary-card">
               <div className="result-card-label">Semester GPA</div>
-              <div className="result-card-value">{resultData.GPA}</div>
+              <div className="result-card-value">{resultData?.GPA}</div>
             </div>
             <div className="result-summary-card">
               <div className="result-card-label">Cumulative GPA</div>
-              <div className="result-card-value">{resultData.CGPA}</div>
+              <div className="result-card-value">{resultData?.CGPA}</div>
             </div>
             <div className="result-summary-card">
               <div className="result-card-label">Total Units</div>
-              <div className="result-card-value">{resultData.totalUnits}</div>
+              <div className="result-card-value">{resultData?.totalUnits}</div>
             </div>
           </div>
 
@@ -238,39 +282,41 @@ export default function ViewResult() {
                 </tr>
               </thead>
               <tbody>
-                {resultData.courses.map((course, index) => (
+                {resultData?.courses?.map((course, index) => (
                   <tr key={index}>
-                    <td>{course.courseCode}</td>
+                    <td>{course?.courseCode}</td>
                     <td className="course-title-cell">
-                      {truncateString(course.courseTitle)}
+                      {truncateString(course?.courseTitle)}
                     </td>
-                    <td>{course.testScore}</td>
-                    <td>{course.examScore}</td>
+                    <td>{course?.testScore}</td>
+                    <td>{course?.examScore}</td>
                     <td>
                       <div className="progress-container">
                         <div className="progress-bar">
                           <div
                             className="progress-fill"
                             style={{
-                              width: `${(course.totalScore / 100) * 100}%`,
-                              backgroundColor: getGradeColor(course.grade),
+                              width: `${(course?.totalScore / 100) * 100}%`,
+                              backgroundColor: getGradeColor(course?.grade),
                             }}
                           ></div>
                         </div>
                         <span className="progress-text">
-                          {course.totalScore}/100
+                          {course?.totalScore}/100
                         </span>
                       </div>
                     </td>
                     <td>
                       <span
                         className="grade-badge"
-                        style={{ backgroundColor: getGradeColor(course.grade) }}
+                        style={{
+                          backgroundColor: getGradeColor(course?.grade),
+                        }}
                       >
-                        {course.grade}
+                        {course?.grade}
                       </span>
                     </td>
-                    <td>{course.unit}</td>
+                    <td>{course?.unit}</td>
                   </tr>
                 ))}
               </tbody>
@@ -295,7 +341,7 @@ export default function ViewResult() {
                         courseCode: e.target.value,
                       });
                     }}
-                    value={courseAnalysis.courseCode}
+                    value={courseAnalysis?.courseCode}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         fetchCourseAnalysis(); // call your function here
@@ -308,6 +354,11 @@ export default function ViewResult() {
                   </span>
                 </div>
                 <select
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      fetchCourseAnalysis(); // call your function here
+                    }
+                  }}
                   onChange={(e) => {
                     setCourseAnalysis({
                       ...courseAnalysis,
@@ -330,7 +381,7 @@ export default function ViewResult() {
                 <div className="chart-container">
                   <PieChart width={300} height={300}>
                     <Pie
-                      data={Object.entries(courseAnalysisData.gradeCounts).map(
+                      data={Object.entries(courseAnalysisData?.gradeCounts).map(
                         ([grade, value]) => ({ name: grade, value })
                       )}
                       cx="50%"
@@ -339,7 +390,7 @@ export default function ViewResult() {
                       dataKey="value"
                       label
                     >
-                      {Object.entries(courseAnalysisData.gradeCounts).map(
+                      {Object.entries(courseAnalysisData?.gradeCounts).map(
                         ([_, __], index) => (
                           <Cell
                             key={`cell-${index}`}
@@ -355,41 +406,43 @@ export default function ViewResult() {
 
                 <div className="course-details">
                   <h3 className="course-code">
-                    Course Code: {courseAnalysisData.courseCode || "N/A"}
+                    Course Code: {courseAnalysisData?.courseCode || "N/A"}
                   </h3>
                   <p className="course-title">
-                    Course Title: {courseAnalysisData.courseTitle || "N/A"}
+                    Course Title: {courseAnalysisData?.courseTitle || "N/A"}
                   </p>
                   <p className="course-lecturer">
-                    Lecturer: {courseAnalysisData.lecturer || "N/A"}
+                    Lecturer: {courseAnalysisData?.lecturer || "N/A"}
                   </p>
                   <p className="course-year">
-                    Analysis For: {courseAnalysisData.session || "N/A"}
+                    Analysis For: {courseAnalysisData?.session || "N/A"}
                   </p>
                   <p className="course-pass-rate">
-                    Pass Rate: {courseAnalysisData.passRate || "0.00"}%
+                    Pass Rate: {courseAnalysisData?.passRate || "0.00"}%
                   </p>
                 </div>
               </div>
             )}
 
-            <div className="feedback-section">
-              <h2 className="feedback-title">Students Feedback</h2>
-              <div className="feedback-list">
-              
-                {courseAnalysisData.feedbacks &&
-                  courseAnalysisData.feedbacks.map((feedback, comment) => (
+            {courseAnalysisData?.feedbacks?.length > 0 && (
+              <div className="feedback-section">
+                <h2 className="feedback-title">Students Feedback</h2>
+                <div className="feedback-list">
+                  {courseAnalysisData?.feedbacks?.map((feedback, index) => (
                     <div key={index} className="feedback-item">
-                      <p className="feedback-text">{feedback.text}</p>
+                      <p className="feedback-text">{feedback?.text}</p>
                       <p className="feedback-author">
-                        - {feedback.author || "Anonymous"}
+                        - {feedback?.author || "Anonymous"}
                       </p>
                     </div>
                   ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            <button className="download-button">
+            <button className="download-button" onClick={(()=>{
+              handleStudentResultDownload()
+            })}>
               <DownloadIcon width={20} height={20} />
               <span>Download Result</span>
             </button>

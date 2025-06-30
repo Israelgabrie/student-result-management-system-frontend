@@ -1,0 +1,367 @@
+/* Admin Event Outlet Styles */
+.aeo-container {
+  background-color: #f8fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Header section */
+.aeo-header {
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(0, 110, 245, 0.1);
+}
+
+.aeo-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #006ef5;
+  margin: 0 0 0.25rem 0;
+}
+
+.aeo-subtitle {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Content layout */
+.aeo-content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .aeo-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Form card */
+.aeo-form-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 110, 245, 0.1);
+  height: fit-content;
+}
+
+.aeo-form-header {
+  background-color: #006ef5;
+  color: white;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.aeo-form-icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+.aeo-form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.aeo-form-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.aeo-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.aeo-form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.aeo-form-input,
+.aeo-form-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #334155;
+  transition: all 0.2s ease;
+}
+
+.aeo-form-input:focus,
+.aeo-form-textarea:focus {
+  outline: none;
+  border-color: #006ef5;
+  box-shadow: 0 0 0 3px rgba(0, 110, 245, 0.1);
+}
+
+.aeo-form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.aeo-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #006ef5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.aeo-submit-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.aeo-submit-btn:hover {
+  background-color: #0055c8;
+}
+
+.aeo-submit-btn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Events card */
+.aeo-events-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 110, 245, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.aeo-events-header {
+  padding: 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aeo-events-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #334155;
+  margin: 0;
+}
+
+.aeo-events-count {
+  background-color: rgba(0, 110, 245, 0.1);
+  color: #006ef5;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.aeo-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.aeo-empty-icon {
+  width: 48px;
+  height: 48px;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.aeo-empty-text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #334155;
+  margin: 0 0 0.5rem 0;
+}
+
+.aeo-empty-subtext {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.aeo-events-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.aeo-events-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.aeo-events-list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.aeo-events-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.aeo-events-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.aeo-event-item {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.aeo-event-item:last-child {
+  border-bottom: none;
+}
+
+.aeo-event-item:hover {
+  background-color: #f8fafc;
+}
+
+.aeo-event-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: #006ef5;
+  color: white;
+  border-radius: 8px;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.aeo-date-day {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.aeo-date-month {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+
+.aeo-event-content {
+  flex: 1;
+}
+
+.aeo-event-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #334155;
+  margin: 0 0 0.5rem 0;
+}
+
+.aeo-event-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.aeo-event-full-date {
+  display: flex;
+  align-items: center;
+}
+
+.aeo-event-location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.aeo-event-location svg {
+  width: 14px;
+  height: 14px;
+  color: #64748b;
+}
+
+.aeo-delete-btn {
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #ef4444;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 1rem;
+}
+
+.aeo-delete-btn:hover {
+  background-color: #fecaca;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .aeo-container {
+    padding: 1rem;
+  }
+  
+  .aeo-title {
+    font-size: 1.5rem;
+  }
+  
+  .aeo-event-item {
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .aeo-event-date {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .aeo-date-day {
+    font-size: 1.25rem;
+  }
+  
+  .aeo-event-content {
+    width: calc(100% - 65px);
+  }
+  
+  .aeo-delete-btn {
+    margin-left: auto;
+    margin-top: 0.75rem;
+  }
+}

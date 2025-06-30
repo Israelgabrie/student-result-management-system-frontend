@@ -44,7 +44,6 @@ export default function SuperAdminHomepage() {
   const fetchManageResultData = async (userId) => {
     try {
       const response = await getManageResultData({ userId });
-      if (response?.success) setAllRequests(response.requests);
       if (response?.success) setManageResultData(response);
       else
         toast.error(response?.message || "Failed to fetch manage Result Data.");
